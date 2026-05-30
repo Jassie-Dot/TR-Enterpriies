@@ -137,6 +137,136 @@ const setupReveal = () => {
   });
 };
 
+/* Premium animations: parallax background and 3D card tilt */
+const setupParallax = () => {
+  const hero = document.querySelector('.hero-section');
+  const heroImage = document.querySelector('.hero-background-image');
+  if (!hero || !heroImage) return;
+
+  heroImage.classList.add('parallax');
+
+  const onPointer = (e) => {
+    const rect = hero.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const px = ((e.clientX || (e.touches && e.touches[0].clientX)) - cx) / rect.width;
+    const py = ((e.clientY || (e.touches && e.touches[0].clientY)) - cy) / rect.height;
+    const max = 12;
+    const tx = -px * max;
+    const ty = -py * (max * 0.6);
+    heroImage.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(1.02)`;
+  };
+
+  const onScroll = () => {
+    const scrolled = window.scrollY || window.pageYOffset;
+    const offset = Math.min(Math.max(scrolled / 8, 0), 120);
+    heroImage.style.transform = `translate3d(0, ${offset * 0.15}px, 0) scale(1.02)`;
+  };
+
+  // Pointer move for desktop-like devices
+  window.addEventListener('pointermove', onPointer, { passive: true });
+  window.addEventListener('scroll', onScroll, { passive: true });
+};
+
+const setupCardTilt = () => {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const cards = Array.from(document.querySelectorAll('.service-card'));
+  cards.forEach((card) => {
+    // wrap contents in .card-inner if missing
+    if (!card.querySelector('.card-inner')) {
+      const inner = document.createElement('div');
+      inner.className = 'card-inner';
+      while (card.firstChild) inner.appendChild(card.firstChild);
+      card.appendChild(inner);
+    }
+
+    const inner = card.querySelector('.card-inner');
+
+    const onMove = (e) => {
+      const rect = card.getBoundingClientRect();
+      const px = ((e.clientX || (e.touches && e.touches[0].clientX)) - rect.left) / rect.width;
+      const py = ((e.clientY || (e.touches && e.touches[0].clientY)) - rect.top) / rect.height;
+      const rx = (py - 0.5) * 10; // rotateX
+      const ry = (px - 0.5) * -12; // rotateY
+      inner.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) translateZ(6px)`;
+      card.classList.add('tilt-active');
+    };
+
+    const onLeave = () => {
+      inner.style.transform = '';
+      card.classList.remove('tilt-active');
+    };
+
+    card.addEventListener('pointermove', onMove, { passive: true });
+    card.addEventListener('pointerleave', onLeave);
+    card.addEventListener('pointerdown', () => card.classList.add('active'));
+    card.addEventListener('pointerup', () => card.classList.remove('active'));
+  });
+};
+
+const setupTheme = () => {
+  const button = document.querySelector('[data-theme-toggle]');
+  const html = document.documentElement;
+  const storageKey = 'tr-theme';
+
+  const updateButton = (theme) => {
+    if (!button) return;
+    const isLight = theme === 'light';
+    button.setAttribute('aria-pressed', String(isLight));
+    const sun = button.querySelector('.icon-sun');
+    const moon = button.querySelector('.icon-moon');
+    if (sun && moon) {
+      // for inline SVG elements prefer visibility / opacity
+      sun.style.display = isLight ? 'inline' : 'none';
+      moon.style.display = isLight ? 'none' : 'inline';
+    }
+  };
+
+  const getTheme = () => html.dataset.theme === 'light' ? 'light' : 'dark';
+
+  const setTheme = (theme, persist = true) => {
+    // add switching class for smooth CSS transitions
+    html.classList.add('theme-switching');
+    window.setTimeout(() => html.classList.remove('theme-switching'), 380);
+    html.dataset.theme = theme === 'light' ? 'light' : 'dark';
+    html.setAttribute('data-theme', html.dataset.theme);
+    if (persist) {
+      try { localStorage.setItem(storageKey, theme); } catch (e) {}
+    }
+    updateButton(theme);
+  };
+
+  if (!button) return;
+
+  // initialize button state - if missing, read stored or system pref
+  if (!html.dataset.theme) {
+    try {
+      const stored = localStorage.getItem(storageKey);
+      if (stored === 'light' || stored === 'dark') html.dataset.theme = stored;
+      else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) html.dataset.theme = 'dark';
+      else html.dataset.theme = 'light';
+      html.setAttribute('data-theme', html.dataset.theme);
+    } catch (e) {}
+  }
+  updateButton(getTheme());
+
+  button.addEventListener('click', () => {
+    const next = getTheme() === 'light' ? 'dark' : 'light';
+    setTheme(next);
+  });
+
+  // respond to system preference changes only when user hasn't set an explicit theme
+  try {
+    const stored = localStorage.getItem(storageKey);
+    if (!stored && window.matchMedia) {
+      const mq = window.matchMedia('(prefers-color-scheme: dark)');
+      const changeHandler = (e) => setTheme(e.matches ? 'dark' : 'light', false);
+      if (mq.addEventListener) mq.addEventListener('change', changeHandler);
+      else if (mq.addListener) mq.addListener(changeHandler);
+    }
+  } catch (e) {}
+};
+
 const renderBrand = ({ brand, services = [] }) => {
   setText("[data-brand-short]", brand.shortName);
   setText("[data-brand-name]", brand.name);
@@ -707,6 +837,9 @@ const boot = () => {
     setupContact(site);
     applyPageMode(site);
     setupServiceModal(site.services);
+    setupTheme();
+    setupParallax();
+    setupCardTilt();
     setupReveal();
   } catch (error) {
     const note = document.createElement("div");
