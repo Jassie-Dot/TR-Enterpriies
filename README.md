@@ -1,6 +1,6 @@
-# TR Enterprises Premium Full-Stack Website
+# TR-Enterpriies Premium Full-Stack Website
 
-Modern Node.js + Tailwind website for TR Enterprises.
+Modern Node.js + Tailwind website for TR-Enterpriies.
 
 ## Stack
 

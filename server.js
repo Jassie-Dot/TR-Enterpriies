@@ -515,7 +515,7 @@ const sanitize = (value) => String(value || "").trim().slice(0, 800);
 
 const createWhatsAppMessage = (inquiry) =>
   [
-    "Hello TR Enterprises, I want a free quote.",
+    "Hello TR-Enterpriies, I want a free quote.",
     `Company: ${inquiry.companyName || inquiry.name}`,
     `Contact: ${inquiry.contactNumber || inquiry.phone}`,
     inquiry.email ? `Email: ${inquiry.email}` : "",
@@ -717,7 +717,7 @@ const handleRequest = async (req, res) => {
   }
 
   if (method === "GET" && pathname === "/api/health" && process.env.ENABLE_HEALTHCHECK === "1") {
-    sendJson(res, 200, { ok: true, service: "TR Enterprises API", timestamp: new Date().toISOString() });
+    sendJson(res, 200, { ok: true, service: "TR-Enterpriies API", timestamp: new Date().toISOString() });
     return;
   }
 
@@ -807,10 +807,10 @@ const handleRequest = async (req, res) => {
 if (require.main === module) {
   ensureSiteContent().then(() => {
     http.createServer(handleRequest).listen(PORT, () => {
-      console.log(`TR Enterprises is running at http://127.0.0.1:${PORT}`);
+      console.log(`TR-Enterpriies is running at http://127.0.0.1:${PORT}`);
     });
   }).catch((error) => {
-    console.error(`Unable to start TR Enterprises: ${error.message}`);
+    console.error(`Unable to start TR-Enterpriies: ${error.message}`);
     process.exitCode = 1;
   });
 }

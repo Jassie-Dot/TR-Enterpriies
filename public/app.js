@@ -20,7 +20,7 @@ const initialsFor = (name = "") =>
 
 const telHref = (phone = "") => `tel:${String(phone).replace(/[^\d+]/g, "")}`;
 
-const quoteMessage = (brand) => `Hello ${brand.name || "TR Enterprises"}, I want a free quote.`;
+const quoteMessage = (brand) => `Hello ${brand.name || "TR-Enterpriies"}, I want a free quote.`;
 
 const whatsappHref = (brand, message = quoteMessage(brand)) =>
   `https://wa.me/${brand.whatsapp}?text=${encodeURIComponent(message)}`;
@@ -543,7 +543,7 @@ const applyPageMode = (site) => {
   const pageMeta = {
     about: {
       eyebrow: "Company",
-      title: "About TR Enterprises",
+      title: "About TR-Enterpriies",
       text: site.sections.about?.text
     },
     services: {
@@ -573,7 +573,7 @@ const applyPageMode = (site) => {
     },
     contact: {
       eyebrow: "Contact",
-      title: "Contact TR Enterprises",
+      title: "Contact TR-Enterpriies",
       text: "Send your requirement and our team will respond quickly."
     }
   };
@@ -588,8 +588,8 @@ const applyPageMode = (site) => {
   const banner = $("[data-page-banner]");
   if (banner) {
     banner.classList.toggle("hidden", isHome);
-    setText("[data-page-eyebrow]", meta.eyebrow || "TR Enterprises");
-    setText("[data-page-title]", meta.title || "TR Enterprises");
+    setText("[data-page-eyebrow]", meta.eyebrow || "TR-Enterpriies");
+    setText("[data-page-title]", meta.title || "TR-Enterpriies");
     setText("[data-page-text]", meta.text || "Reliable field teams for solar, industrial, and plant operations.");
   }
 
@@ -607,7 +607,7 @@ const applyPageMode = (site) => {
   });
 
   if (!isHome) {
-    document.title = `${meta.title || "TR Enterprises"} | TR Enterprises`;
+    document.title = `${meta.title || "TR-Enterpriies"} | TR-Enterpriies`;
   }
 };
 

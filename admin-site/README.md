@@ -1,6 +1,6 @@
-# TR Enterprises Remote Admin
+# TR-Enterpriies Remote Admin
 
-Separate deployable admin website for editing the TR Enterprises public website.
+Separate deployable admin website for editing the TR-Enterpriies public website.
 
 ## Local Run
 

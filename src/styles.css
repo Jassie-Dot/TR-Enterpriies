@@ -1521,7 +1521,7 @@
     background: color-mix(in srgb, var(--header-bg) 94%, var(--page-bg) 6%);
   }
 
-  .site-header a[aria-label="TR Enterprises home"] {
+  .site-header a[aria-label="TR-Enterpriies home"] {
     min-width: 0;
     flex: 1 1 auto;
   }

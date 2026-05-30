@@ -2,7 +2,7 @@ const serviceSafety = ["Helmets", "Gloves", "PPE kits", "Safety belts", "Safety 
 
 const site = {
   brand: {
-    name: "TR Enterprises",
+    name: "TR-Enterpriies",
     shortName: "TR",
     phone: "+91 9310508703",
     whatsapp: "919310508703",
@@ -13,10 +13,10 @@ const site = {
     mapUrl: "https://www.google.com/maps/search/?api=1&query=B-15%20Sharda%20Enclave%2C%20Shahbad%20Daulatpur%2C%20Delhi%20110042"
   },
   hero: {
-    eyebrow: "Solar. Industrial. Manpower.",
-    title: "TR Enterprises",
+    eyebrow: "Solar. Industrial.",
+    title: "TR-Enterpriies",
     text:
-      "Reliable field teams for solar cleaning, industrial cleaning, manpower, inverter support, dismantling, and insulation plant work.",
+      "Reliable field teams for solar cleaning, industrial cleaning, inverter support, dismantling, and insulation plant work.",
     image: "/assets/images/hero-solar-maintenance.png",
     slides: [
       {
@@ -38,7 +38,6 @@ const site = {
       "Solar panel cleaning",
       "Industrial cleaning",
       "Dismantling work",
-      "Manpower supply",
       "Inverter installation and maintenance",
       "Insulation plant work",
       "Safety training support",
@@ -49,7 +48,7 @@ const site = {
       title: "Developing safer service teams for solar, plant, and industrial sites.",
       statement: "Developing safer service teams for active sites.",
       text:
-        "TR Enterprises supports solar, industrial, and plant teams with dependable workers, clear supervision, and disciplined handovers.",
+        "TR-Enterpriies supports solar, industrial, and plant teams with dependable workers, clear supervision, and disciplined handovers.",
       directorNote:
         "The team keeps the work personal and accountable, with emphasis on communication, safety, attendance, and clean completion before leaving the site.",
       highlights: [
@@ -80,13 +79,13 @@ const site = {
     },
     projects: {
       eyebrow: "Reference Project",
-      title: "Field proof from solar, industrial, and manpower support.",
+      title: "Field proof from solar and industrial support.",
       text:
         "Project photos, worked-with companies, and short case-study snapshots help clients understand the kind of work TR handles."
     },
     leadership: {
       eyebrow: "Leadership",
-      title: "Leaders behind TR Enterprises.",
+      title: "Leaders behind TR-Enterpriies.",
       text:
         "The leadership team keeps work accountable, communication clear, and site delivery disciplined."
     },
@@ -125,8 +124,8 @@ const site = {
       button: "Submit Enquiry"
     },
     footer: {
-      tagline: "Solar, industrial, manpower, power, plant, and site support services.",
-      copyright: "2026 TR Enterprises. All rights reserved."
+      tagline: "Solar, industrial, power, plant, and site support services.",
+      copyright: "2026 TR-Enterpriies. All rights reserved."
     }
   },
   metrics: [
@@ -156,15 +155,15 @@ const site = {
   trustedBy: ["Hero Solar", "Tata Solar", "Orina Power"],
   leadership: [
     {
+      name: "Tushar",
+      role: "Director",
+      experience: "Leadership and operations",
+      image: "/assets/images/tushar.jpeg"
+    },
+    {
       name: "Arun Kumar",
       role: "Associate Director",
       experience: "8 years experience",
-      image: ""
-    },
-    {
-      name: "Tush",
-      role: "Director",
-      experience: "Leadership and operations",
       image: ""
     }
   ],
@@ -204,29 +203,14 @@ const site = {
       title: "Dismantling Work",
       category: "Site Support",
       image: "/assets/images/dismantling-site-work.png",
-      summary: "Controlled dismantling support with planned manpower, safe movement, and organized close-out.",
+      summary: "Controlled dismantling support with planned crews, safe movement, and organized close-out.",
       bullets: ["Crew planning", "Safe movement", "Close-out"],
       detail: {
-        what: "Support manpower for dismantling tasks where controlled sequencing and safety supervision are required.",
+        what: "Support crews for dismantling tasks where controlled sequencing and safety supervision are required.",
         for: "Industrial sites, facility teams, solar sites, and contractors handling removal or relocation work.",
         process: ["Work briefing", "Safety zoning", "Dismantling support", "Material movement and clean-up"],
         safety: serviceSafety,
-        benefits: ["Controlled execution", "Cleaner site handover", "Reduced disruption", "Better manpower coordination"]
-      }
-    },
-    {
-      id: "manpower-supply-services",
-      title: "Manpower Supply Services",
-      category: "Workforce",
-      image: "/assets/images/manpower-team.png",
-      summary: "Disciplined manpower supply for solar, industrial, plant, maintenance, and support work.",
-      bullets: ["Ready crews", "Supervision", "Flexible deployment"],
-      detail: {
-        what: "Skilled and semi-skilled manpower deployment with supervision and clear task briefings.",
-        for: "Companies that need dependable manpower for site cleaning, maintenance, monitoring, or operational support.",
-        process: ["Requirement collection", "Team allocation", "Safety briefing", "Daily execution and supervision"],
-        safety: serviceSafety,
-        benefits: ["Fast deployment", "Clear accountability", "Flexible team size", "Site-ready workers"]
+        benefits: ["Controlled execution", "Cleaner site handover", "Reduced disruption", "Better crew coordination"]
       }
     },
     {
@@ -252,7 +236,7 @@ const site = {
       summary: "Focused plant-work support for insulation areas, inspections, zone care, and maintenance teams.",
       bullets: ["Plant assist", "Inspection support", "Zone care"],
       detail: {
-        what: "Support manpower and supervision for insulation-related plant work and maintenance-area assistance.",
+        what: "Support crews and supervision for insulation-related plant work and maintenance-area assistance.",
         for: "Plant operators, industrial sites, insulation contractors, and maintenance teams.",
         process: ["Plant briefing", "PPE check", "Insulation-area support", "Inspection and clean handover"],
         safety: serviceSafety,
@@ -280,16 +264,6 @@ const site = {
       result: "Safer movement and cleaner active work zones",
       image: "/assets/images/industrial-maintenance.png",
       impact: "Sharper work zones with steady movement."
-    },
-    {
-      title: "Manpower deployment",
-      type: "Workforce / Site Support",
-      site: "Active service site",
-      requirement: "Reliable manpower with supervision",
-      workDone: "Crew briefing, task allocation, attendance, and daily reporting",
-      result: "Smooth coordination for site tasks",
-      image: "/assets/images/manpower-team.png",
-      impact: "Organized manpower. Smooth coordination."
     }
   ],
   process: [
@@ -321,7 +295,7 @@ const site = {
       role: "Solar site team"
     },
     {
-      quote: "Reliable manpower with clear supervision and steady communication.",
+      quote: "Reliable crew with clear supervision and steady communication.",
       name: "Tata Solar",
       role: "Maintenance partner"
     },
@@ -335,7 +309,6 @@ const site = {
     { title: "Solar engineers at work", image: "/assets/images/hero-solar-maintenance.png" },
     { title: "Solar panel cleaning", image: "/assets/images/solar-panel-cleaning.png" },
     { title: "Industrial maintenance", image: "/assets/images/industrial-maintenance.png" },
-    { title: "Manpower support", image: "/assets/images/manpower-team.png" },
     { title: "Inverter installation and maintenance", image: "/assets/images/inverter-installation.png" },
     { title: "Insulation plant work", image: "/assets/images/insulation-plant-work.png" }
   ]

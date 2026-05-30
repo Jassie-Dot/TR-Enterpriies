@@ -2,7 +2,7 @@
   "name": "tr-enterprises-remote-admin",
   "version": "1.0.0",
   "private": true,
-  "description": "Separate deployable admin website for TR Enterprises.",
+  "description": "Separate deployable admin website for TR-Enterpriies.",
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
