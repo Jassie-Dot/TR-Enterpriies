@@ -153,7 +153,7 @@ const renderBrand = ({ brand, services = [] }) => {
   const navServices = $("[data-nav-services]");
   if (navServices) {
     navServices.innerHTML = services
-      .map((service) => `<a href="/services#${escapeHtml(service.id)}">${escapeHtml(service.title)}</a>`)
+      .map((service) => `<a href="#" data-open-service="${escapeHtml(service.id)}">${escapeHtml(service.title)}</a>`)
       .join("");
   }
 };
@@ -308,7 +308,7 @@ const renderServices = (services = []) => {
     .map(
       (service) => `
         <article class="service-card reveal" id="${escapeHtml(service.id)}">
-          <a href="/contact" aria-label="Request quote for ${escapeHtml(service.title)}">
+          <a href="#" data-open-service="${escapeHtml(service.id)}" aria-label="View details for ${escapeHtml(service.title)}">
             <img src="${escapeHtml(service.image)}" alt="${escapeHtml(service.title)}" loading="lazy" />
             <div>
               <span>${escapeHtml(service.category)}</span>
@@ -465,7 +465,7 @@ const renderFooter = ({ brand, services = [] }) => {
   const serviceLinks = $("[data-footer-services]");
   if (serviceLinks) {
     serviceLinks.innerHTML = services
-      .map((service) => `<a href="/services#${escapeHtml(service.id)}">${escapeHtml(service.title)}</a>`)
+      .map((service) => `<a href="#" data-open-service="${escapeHtml(service.id)}">${escapeHtml(service.title)}</a>`)
       .join("");
   }
 
@@ -475,7 +475,7 @@ const renderFooter = ({ brand, services = [] }) => {
   setHref("[data-footer-email]", `mailto:${brand.email}`);
   setText("[data-footer-email]", brand.email);
   setText("[data-footer-address]", brand.address);
-  setText("[data-footer-hours]", brand.workingHours || "All days available");
+  setText("[data-footer-hours]", brand.workingHours || "Mon-Sat available");
 };
 
 const setupContact = ({ brand, services = [] }) => {
@@ -488,7 +488,7 @@ const setupContact = ({ brand, services = [] }) => {
   setHref("[data-contact-map]", brand.mapUrl);
   setText("[data-contact-address]", brand.address);
   setText("[data-contact-location]", brand.location);
-  setText("[data-contact-hours]", brand.workingHours || "All days available");
+  setText("[data-contact-hours]", brand.workingHours || "Mon-Sat available");
   setHref("[data-cta-whatsapp]", whatsappHref(brand));
 
   const select = $("[data-service-select]");
@@ -623,6 +623,70 @@ const loadSite = () => {
   return site;
 };
 
+
+const setupServiceModal = (services = []) => {
+  const modal = $("[data-service-modal]");
+  const body = $("[data-service-modal-body]");
+  const closeBtn = $("[data-service-close]");
+  if (!modal || !body) return;
+
+  const close = () => modal.classList.add("hidden");
+  closeBtn?.addEventListener("click", close);
+  modal.addEventListener("click", (e) => { if (e.target === modal) close(); });
+  window.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
+
+  document.body.addEventListener("click", (e) => {
+    const trigger = e.target.closest("[data-open-service]");
+    if (trigger) {
+      e.preventDefault();
+      const serviceId = trigger.dataset.openService;
+      const service = services.find(s => s.id === serviceId);
+      if (service) {
+        body.innerHTML = `
+          <h2>${escapeHtml(service.title)}</h2>
+          <img src="${escapeHtml(service.image)}" alt="${escapeHtml(service.title)}" style="width:100%; border-radius:8px; margin-bottom:1rem;" />
+          <p><strong>What:</strong> ${escapeHtml(service.detail?.what || service.summary)}</p>
+          ${service.detail?.for ? `<p><strong>For:</strong> ${escapeHtml(service.detail.for)}</p>` : ''}
+          
+          ${service.detail?.process?.length ? `
+            <h3>Process</h3>
+            <ul>
+              ${service.detail.process.map(p => `<li>${escapeHtml(p)}</li>`).join("")}
+            </ul>
+          ` : ''}
+          
+          ${service.detail?.benefits?.length ? `
+            <h3>Benefits</h3>
+            <ul>
+              ${service.detail.benefits.map(b => `<li>${escapeHtml(b)}</li>`).join("")}
+            </ul>
+          ` : ''}
+          
+          ${service.detail?.safety?.length ? `
+            <h3>Safety Equipment</h3>
+            <ul>
+              ${service.detail.safety.map(s => `<li>${escapeHtml(s)}</li>`).join("")}
+            </ul>
+          ` : ''}
+          
+          <div style="margin-top:2rem;">
+            <a class="btn-primary" href="/contact">Request Quote</a>
+          </div>
+        `;
+        modal.classList.remove("hidden");
+      }
+      
+      // Close mobile menu if it was open
+      const mobileNav = $("[data-mobile-nav]");
+      const toggle = $("[data-menu-toggle]");
+      if (mobileNav && !mobileNav.classList.contains("hidden")) {
+        mobileNav.classList.add("hidden");
+        if (toggle) toggle.setAttribute("aria-expanded", "false");
+      }
+    }
+  });
+};
+
 const boot = () => {
   setupMenu();
   setupScrollControls();
@@ -642,6 +706,7 @@ const boot = () => {
     renderFooter(site);
     setupContact(site);
     applyPageMode(site);
+    setupServiceModal(site.services);
     setupReveal();
   } catch (error) {
     const note = document.createElement("div");

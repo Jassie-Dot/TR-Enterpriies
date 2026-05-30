@@ -9,7 +9,7 @@ const site = {
     address: "B-15 Sharda Enclave, Shahbad Daulatpur, Delhi - 110042",
     email: "trenterpriies@gmail.com",
     location: "Delhi NCR",
-    workingHours: "All days available",
+    workingHours: "Mon-Sat available",
     mapUrl: "https://www.google.com/maps/search/?api=1&query=B-15%20Sharda%20Enclave%2C%20Shahbad%20Daulatpur%2C%20Delhi%20110042"
   },
   hero: {
@@ -29,7 +29,7 @@ const site = {
       },
       {
         title: "Industrial maintenance support",
-        image: "/assets/images/industrial-maintenance.png"
+        image: "/assets/images/insulation-plant-work.png"
       }
     ]
   },
@@ -75,7 +75,7 @@ const site = {
       eyebrow: "Why choose TR?",
       title: "We provide dependable solutions to suit your site needs.",
       text:
-        "Clients get trained workers, emergency support, all-days availability, and modern execution methods for active sites."
+        "Clients get trained workers, emergency support, Mon-Sat availability, and modern execution methods for active sites."
     },
     projects: {
       eyebrow: "Reference Project",
@@ -132,7 +132,7 @@ const site = {
     { value: "25+", label: "skilled workers" },
     { value: "4", label: "engineers" },
     { value: "6", label: "service lines" },
-    { value: "All days", label: "available" }
+    { value: "Mon-Sat", label: "available" }
   ],
   whyChoose: [
     {
@@ -148,8 +148,8 @@ const site = {
       text: "A structured team of engineers, supervisors, monitoring support, and trained workers is available."
     },
     {
-      title: "All-days availability",
-      text: "TR supports urgent schedules and planned site cycles with practical, all-days response."
+      title: "Mon-Sat availability",
+      text: "TR supports urgent schedules and planned site cycles with practical, Mon-Sat response."
     }
   ],
   trustedBy: ["Hero Solar", "Tata Solar", "Orina Power"],
@@ -187,7 +187,7 @@ const site = {
       id: "industrial-cleaning-services",
       title: "Industrial Cleaning Services",
       category: "Industrial",
-      image: "/assets/images/industrial-maintenance.png",
+      image: "/assets/images/insulation-plant-work.png",
       summary: "Industrial cleaning support for equipment zones, work floors, plant areas, and maintenance spaces.",
       bullets: ["Equipment zones", "Plant floors", "Maintenance support"],
       detail: {
@@ -232,7 +232,7 @@ const site = {
       id: "insulation-plant-work",
       title: "Insulation Plant Work",
       category: "Plant",
-      image: "/assets/images/insulation-plant-work.png",
+      image: "/assets/images/new-insulation-plant-work.png",
       summary: "Focused plant-work support for insulation areas, inspections, zone care, and maintenance teams.",
       bullets: ["Plant assist", "Inspection support", "Zone care"],
       detail: {
@@ -241,6 +241,36 @@ const site = {
         process: ["Plant briefing", "PPE check", "Insulation-area support", "Inspection and clean handover"],
         safety: serviceSafety,
         benefits: ["Organized plant support", "Safer site movement", "Cleaner working zones", "Reliable maintenance assistance"]
+      }
+    },
+    {
+      id: "earthing-services",
+      title: "Earthing Services",
+      category: "Power",
+      image: "/assets/images/earthing.png",
+      summary: "Professional earthing system installation and maintenance for electrical safety and stability.",
+      bullets: ["System installation", "Testing and inspection", "Maintenance support"],
+      detail: {
+        what: "Installation, inspection, and maintenance of earthing systems to ensure safe dissipation of fault currents.",
+        for: "Industrial plants, commercial buildings, solar setups, and facilities requiring robust electrical grounding.",
+        process: ["Site evaluation", "Design and material planning", "Installation and bonding", "Testing and handover"],
+        safety: serviceSafety,
+        benefits: ["Enhanced electrical safety", "Equipment protection", "Compliance with standards", "Reduced downtime"]
+      }
+    },
+    {
+      id: "operations-and-maintenance",
+      title: "Operations and Maintenance",
+      category: "Site Support",
+      image: "/assets/images/operation and maintenance.png",
+      summary: "Comprehensive operations and maintenance (O&M) for industrial plants, solar farms, and facilities.",
+      bullets: ["Routine maintenance", "Performance tracking", "Corrective action"],
+      detail: {
+        what: "End-to-end operational support and scheduled maintenance to keep equipment and facilities running smoothly.",
+        for: "Solar power plants, manufacturing units, commercial complexes, and industrial sites.",
+        process: ["Condition assessment", "Preventive scheduling", "Active monitoring and maintenance", "Performance reporting"],
+        safety: serviceSafety,
+        benefits: ["Maximized uptime", "Extended asset life", "Consistent performance", "Proactive issue resolution"]
       }
     }
   ],
@@ -262,7 +292,7 @@ const site = {
       requirement: "Cleaning and maintenance-zone readiness",
       workDone: "Area support, equipment-zone cleaning, and supervised close-out",
       result: "Safer movement and cleaner active work zones",
-      image: "/assets/images/industrial-maintenance.png",
+      image: "/assets/images/insulation-plant-work.png",
       impact: "Sharper work zones with steady movement."
     }
   ],
@@ -308,9 +338,9 @@ const site = {
   gallery: [
     { title: "Solar engineers at work", image: "/assets/images/hero-solar-maintenance.png" },
     { title: "Solar panel cleaning", image: "/assets/images/solar-panel-cleaning.png" },
-    { title: "Industrial maintenance", image: "/assets/images/industrial-maintenance.png" },
+    { title: "Industrial maintenance", image: "/assets/images/insulation-plant-work.png" },
     { title: "Inverter installation and maintenance", image: "/assets/images/inverter-installation.png" },
-    { title: "Insulation plant work", image: "/assets/images/insulation-plant-work.png" }
+    { title: "Insulation plant work", image: "/assets/images/new-insulation-plant-work.png" }
   ]
 };
 
