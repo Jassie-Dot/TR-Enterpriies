@@ -107,7 +107,7 @@ const site = {
     trusted: {
       eyebrow: "Our Valued Clients",
       title: "Companies TR has worked with.",
-      text: "Hero Solar, Tata Solar, and Orina Power are highlighted as companies TR has worked with."
+      text: "HFM Solar Power Private Limited, Enerture Technologies Pvt Ltd, hero solar energy private limited, Oriana Power Ltd, and Tata Power Solar Systems Limited are highlighted as companies TR has worked with."
     },
     cta: {
       eyebrow: "Need a site team?",
@@ -152,7 +152,13 @@ const site = {
       text: "TR supports urgent schedules and planned site cycles with practical, Mon-Sat response."
     }
   ],
-  trustedBy: ["Hero Solar", "Tata Solar", "Orina Power"],
+  trustedBy: [
+    "HFM Solar Power Private Limited",
+    "Enerture Technologies Pvt Ltd",
+    "hero solar energy private limited",
+    "Oriana Power Ltd",
+    "Tata Power Solar Systems Limited"
+  ],
   leadership: [
     {
       name: "Tushar",
@@ -321,17 +327,17 @@ const site = {
   testimonials: [
     {
       quote: "Punctual, disciplined, and easy to coordinate on active solar sites.",
-      name: "Hero Solar",
+      name: "HFM Solar Power Private Limited",
       role: "Solar site team"
     },
     {
       quote: "Reliable crew with clear supervision and steady communication.",
-      name: "Tata Solar",
+      name: "Enerture Technologies Pvt Ltd",
       role: "Maintenance partner"
     },
     {
       quote: "TR keeps the work organized and safety-focused from briefing to close-out.",
-      name: "Orina Power",
+      name: "hero solar energy private limited",
       role: "Operations team"
     }
   ],
