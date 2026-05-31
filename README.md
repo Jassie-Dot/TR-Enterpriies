@@ -1,4 +1,4 @@
-# TR-Enterprises Website
+# TR-Enterpriies Website
 
 Professional, lightweight full-stack website for TR-Enterprises. This repository contains the Node.js server, Tailwind-based frontend, and site content used by the public pages and contact form.
 
@@ -49,10 +49,6 @@ Open `http://127.0.0.1:3000` in your browser.
 
 **Where to Edit Site Content**
 - Public content is controlled in [data/site.js](data/site.js). Frontend markup is in [public/index.html](public/index.html).
-
-If you want, I can also:
-- Update `data/site.js` with clearer content structure.
-- Add a CONTRIBUTING section or GitHub workflow for deployment.
 
 ---
 If you'd like any wording adjusted or more details added (contributing guide, deployment steps, or badges), tell me which sections to expand.
