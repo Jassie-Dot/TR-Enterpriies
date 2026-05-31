@@ -292,7 +292,12 @@ const site = {
       id: "operations-and-maintenance",
       title: "Operations and Maintenance",
       category: "Site Support",
-      image: "/assets/images/operation and maintenance.png",
+      image: "/assets/images/o&m1.png",
+      gallery: [
+        { title: "Operations and maintenance field support", image: "/assets/images/operations.png" },
+        { title: "Operations and maintenance inspection", image: "/assets/images/o&m3.jpeg" },
+        { title: "Operations and maintenance site team", image: "/assets/images/o&m4.png" }
+      ],
       summary: "Comprehensive operations and maintenance (O&M) for industrial plants, solar farms, and facilities.",
       bullets: ["Routine maintenance", "Performance tracking", "Corrective action"],
       detail: {
