@@ -307,7 +307,8 @@ const renderHero = ({ brand, hero = {}, metrics = [] }) => {
             src="${escapeHtml(slide.image)}"
             alt="${escapeHtml(slide.title || hero.title || brand.name)}"
             data-hero-slide="${index}"
-            ${index === 0 ? 'fetchpriority="high"' : 'loading="lazy"'}
+            decoding="async"
+            ${index === 0 ? 'fetchpriority="high"' : 'fetchpriority="low"'}
           />
         `
       )
@@ -439,7 +440,7 @@ const renderServices = (services = []) => {
       (service) => `
         <article class="service-card reveal" id="${escapeHtml(service.id)}">
           <a href="#" data-open-service="${escapeHtml(service.id)}" aria-label="View details for ${escapeHtml(service.title)}">
-            <img src="${escapeHtml(service.image)}" alt="${escapeHtml(service.title)}" loading="lazy" />
+            <img src="${escapeHtml(service.image)}" alt="${escapeHtml(service.title)}" decoding="async" />
             <div>
               <span>${escapeHtml(service.category)}</span>
               <h3>${escapeHtml(service.title)}</h3>
@@ -487,7 +488,7 @@ const renderProjects = (projects = []) => {
     .map(
       (project) => `
         <article class="project-card reveal">
-          <img src="${escapeHtml(project.image)}" alt="${escapeHtml(project.title)}" loading="lazy" />
+          <img src="${escapeHtml(project.image)}" alt="${escapeHtml(project.title)}" decoding="async" />
           <div>
             <span>${escapeHtml(project.type)}</span>
             <h3>${escapeHtml(project.title)}</h3>
@@ -516,7 +517,7 @@ const renderLeadership = (leadership = []) => {
             <span>${escapeHtml(initialsFor(leader.name))}</span>
             ${
               leader.image
-                ? `<img src="${escapeHtml(leader.image)}" alt="${escapeHtml(leader.name)}" loading="lazy" data-leader-image />`
+                ? `<img src="${escapeHtml(leader.image)}" alt="${escapeHtml(leader.name)}" decoding="async" data-leader-image />`
                 : ""
             }
           </div>
@@ -563,7 +564,7 @@ const setupGallery = (gallery = []) => {
     .map(
       (item, index) => `
         <button class="gallery-item reveal ${index === 0 ? "gallery-hero-tile" : ""}" type="button" data-gallery-index="${index}">
-          <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}" loading="lazy" />
+          <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}" decoding="async" />
           <span>${escapeHtml(item.title)}</span>
         </button>
       `
@@ -768,7 +769,7 @@ const renderServiceMedia = (service) => {
         ${supporting
           .map(
             (item) => `
-              <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title || service.title)}" loading="lazy" />
+              <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title || service.title)}" decoding="async" />
             `
           )
           .join("")}
@@ -778,7 +779,7 @@ const renderServiceMedia = (service) => {
 
   return `
     <div class="service-modal-media">
-      <img src="${escapeHtml(primary.image)}" alt="${escapeHtml(primary.title || service.title)}" />
+      <img src="${escapeHtml(primary.image)}" alt="${escapeHtml(primary.title || service.title)}" decoding="async" fetchpriority="high" />
       ${supportingMarkup}
     </div>
   `;
