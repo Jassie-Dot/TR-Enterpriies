@@ -3528,31 +3528,172 @@ textarea.field-input {
   bottom: 18px;
   z-index: 60;
   display: grid;
-  gap: 10px;
+  gap: 12px;
 }
 
 .floating-actions a,
 .floating-actions button {
   display: grid;
-  min-width: 48px;
-  min-height: 48px;
+  min-width: 56px;
+  min-height: 56px;
   place-items: center;
   border-radius: 999px;
   background: var(--brand-green);
   color: #ffffff;
-  font-size: 0.8rem;
-  font-weight: 900;
-  box-shadow: 0 16px 32px rgba(18, 33, 27, 0.22);
+  box-shadow: 0 8px 24px rgba(18, 33, 27, 0.26);
+  transition: all 240ms cubic-bezier(0.16, 1, 0.3, 1);
+  border: none;
+  cursor: pointer;
+}
+
+.floating-actions a:hover,
+.floating-actions button:hover {
+  transform: translateY(-4px) scale(1.08);
+  box-shadow: 0 12px 32px rgba(18, 33, 27, 0.36);
+}
+
+.floating-actions a:active,
+.floating-actions button:active {
+  transform: translateY(-2px) scale(1.04);
 }
 
 .floating-actions button {
-  border: 0;
-  background: var(--brand-gold);
+  background: transparent;
   color: var(--ink);
+  border: none;
+}
+
+.floating-actions button.floating-btn {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: 56px;
+  height: 56px;
+  min-width: auto;
+  min-height: auto;
+  box-shadow: none;
+  transform: none;
+}
+
+.floating-actions button.floating-btn .btn-label {
+  position: absolute;
+  left: 70px;
+  opacity: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--ink);
+  background: linear-gradient(135deg, #ffffff, #f5f5f5);
+  padding: 10px 16px;
+  border-radius: 8px;
+  white-space: nowrap;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  transform: translateX(12px);
+  transition: all 320ms cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  letter-spacing: -0.3px;
+}
+
+.floating-actions button.floating-btn svg {
+  width: 40px;
+  height: 40px;
+  transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
+  color: #ffffff;
+}
+
+html[data-theme="light"] .floating-actions button.floating-btn svg {
+  color: #000000;
+}
+
+.floating-actions button.floating-btn:hover .btn-label {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.floating-actions button.floating-btn:hover svg {
+  transform: translateX(-8px) scale(1.08);
+}
+
+.floating-actions button.floating-btn:active .btn-label {
+  transform: translateX(-2px);
+  opacity: 0.95;
+}
+
+.floating-actions svg {
+  width: 24px;
+  height: 24px;
+  stroke-width: 1.5;
+}
+
+.floating-actions img {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+}
+
+.floating-actions a[data-floating-call] img {
+  width: 56px;
+  height: 56px;
+}
+
+.floating-actions a.floating-btn {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: 56px;
+  height: 56px;
+  background: transparent;
+  box-shadow: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.floating-actions a.floating-btn .btn-label {
+  position: absolute;
+  left: 70px;
+  opacity: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--ink);
+  background: linear-gradient(135deg, #ffffff, #f5f5f5);
+  padding: 10px 16px;
+  border-radius: 8px;
+  white-space: nowrap;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  transform: translateX(12px);
+  transition: all 320ms cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  letter-spacing: -0.3px;
+}
+
+.floating-actions a.floating-btn img {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.floating-actions a.floating-btn:hover .btn-label {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.floating-actions a.floating-btn:hover img {
+  transform: translateX(-8px) scale(1.08);
+}
+
+.floating-actions a.floating-btn:active .btn-label {
+  transform: translateX(-2px);
+  opacity: 0.95;
 }
 
 .floating-actions .hidden {
   display: none;
+}
+
+.floating-actions button.floating-btn.hidden {
+  display: none !important;
 }
 
 .lightbox {
