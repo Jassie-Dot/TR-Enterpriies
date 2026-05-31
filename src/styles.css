@@ -1379,14 +1379,6 @@
     box-shadow: 0 18px 50px rgba(240, 115, 36, 0.28);
   }
 
-  .admin-link {
-    color: var(--soft-text);
-  }
-
-  .admin-link:hover {
-    color: var(--text);
-  }
-
   .site-header {
     box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
   }

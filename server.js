@@ -7,49 +7,21 @@ const initialSite = require("./data/site");
 const PORT = Number(process.env.PORT || 3000);
 const IS_PRODUCTION = process.env.NODE_ENV === "production" || Boolean(process.env.VERCEL);
 const ALLOW_VERCEL_LIVE = Boolean(process.env.VERCEL) && process.env.DISABLE_VERCEL_LIVE !== "1";
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "";
-const ADMIN_TOKEN_SECRET = process.env.ADMIN_TOKEN_SECRET || (IS_PRODUCTION ? "" : crypto.randomBytes(32).toString("base64url"));
-const ADMIN_SESSION_MS = 1000 * 60 * 60 * 12;
-const ADMIN_COOKIE_NAME = IS_PRODUCTION ? "__Host-tr_admin_session" : "tr_admin_session";
-const ADMIN_ORIGINS = new Set(
-  String(process.env.ADMIN_ORIGINS || "")
-    .split(",")
-    .map((origin) => origin.trim().replace(/\/+$/, ""))
-    .filter(Boolean)
-);
 const REDIS_REST_URL = String(process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL || "").replace(/\/+$/, "");
 const REDIS_REST_TOKEN = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN || "";
 const HAS_REMOTE_STORAGE = Boolean(REDIS_REST_URL && REDIS_REST_TOKEN);
-const SITE_CONTENT_STORAGE_KEY = process.env.SITE_CONTENT_STORAGE_KEY || "tr:site-content";
 const INQUIRIES_STORAGE_KEY = process.env.INQUIRIES_STORAGE_KEY || "tr:inquiries";
-const SITE_CONTENT_CACHE_MS = Math.max(0, Number(process.env.SITE_CONTENT_CACHE_MS || (HAS_REMOTE_STORAGE ? 5000 : 0)));
 const CAN_PERSIST_DATA = !process.env.VERCEL;
 const ROOT = __dirname;
 const PUBLIC_DIR = path.join(ROOT, "public");
 const ASSETS_DIR = path.join(ROOT, "assets");
 const DATA_DIR = path.join(ROOT, "data");
-const SITE_CONTENT_FILE = path.join(DATA_DIR, "site-content.json");
 const INQUIRIES_FILE = path.join(DATA_DIR, "inquiries.json");
 const MAX_BODY_BYTES = 1024 * 512;
 const PUBLIC_SITE_PLACEHOLDER = "__TR_SITE_DATA__";
-const LOGIN_LIMIT = { limit: 6, windowMs: 15 * 60 * 1000 };
 const INQUIRY_LIMIT = { limit: 8, windowMs: 60 * 60 * 1000 };
-let siteState = initialSite;
-let siteContentReady = null;
-let siteContentLoadedAt = 0;
+const siteState = initialSite;
 const rateLimitStore = new Map();
-
-if (!ADMIN_PASSWORD) {
-  console.warn("ADMIN_PASSWORD is not configured. Admin login is disabled.");
-}
-
-if (!ADMIN_TOKEN_SECRET) {
-  console.warn("ADMIN_TOKEN_SECRET is not configured. Admin login is disabled.");
-}
-
-if (process.env.VERCEL && !HAS_REMOTE_STORAGE) {
-  console.warn("Remote storage is not configured. Admin edits on Vercel will not survive redeploys or cold starts.");
-}
 
 const mimeTypes = new Map([
   [".html", "text/html; charset=utf-8"],
@@ -110,36 +82,6 @@ const getHeader = (req, name) => {
   return Array.isArray(value) ? value[0] : value || "";
 };
 
-const parseCookies = (req) =>
-  getHeader(req, "cookie")
-    .split(";")
-    .map((part) => part.trim())
-    .filter(Boolean)
-    .reduce((cookies, part) => {
-      const separator = part.indexOf("=");
-      if (separator === -1) return cookies;
-
-      const name = part.slice(0, separator).trim();
-      const value = part.slice(separator + 1).trim();
-      try {
-        if (name) cookies[name] = decodeURIComponent(value);
-      } catch {
-        if (name) cookies[name] = "";
-      }
-      return cookies;
-    }, {});
-
-const createAdminCookie = (token, maxAgeSeconds = Math.floor(ADMIN_SESSION_MS / 1000)) => [
-  `${ADMIN_COOKIE_NAME}=${encodeURIComponent(token)}`,
-  "Path=/",
-  "HttpOnly",
-  "SameSite=Strict",
-  `Max-Age=${maxAgeSeconds}`,
-  ...(IS_PRODUCTION ? ["Secure"] : [])
-].join("; ");
-
-const clearAdminCookie = () => createAdminCookie("", 0);
-
 const getClientIp = (req) =>
   getHeader(req, "x-forwarded-for").split(",")[0].trim() ||
   req.socket?.remoteAddress ||
@@ -169,42 +111,10 @@ const isSameOriginRequest = (req) => {
   return false;
 };
 
-const normalizeOrigin = (origin = "") => {
-  try {
-    return new URL(origin).origin.replace(/\/+$/, "");
-  } catch {
-    return "";
-  }
-};
-
-const isAllowedAdminOrigin = (req) => {
-  const origin = normalizeOrigin(getHeader(req, "origin"));
-  return Boolean(origin && ADMIN_ORIGINS.has(origin));
-};
-
-const getAdminCorsHeaders = (req) => {
-  const origin = normalizeOrigin(getHeader(req, "origin"));
-  if (!origin || !ADMIN_ORIGINS.has(origin)) return {};
-
-  return {
-    "Access-Control-Allow-Origin": origin,
-    "Access-Control-Allow-Headers": "Content-Type, Authorization",
-    "Access-Control-Allow-Methods": "GET, POST, PUT, OPTIONS",
-    "Access-Control-Max-Age": "600",
-    "Vary": "Origin"
-  };
-};
-
-const sendAdminJson = (req, res, status, payload, headers = {}) =>
-  sendJson(res, status, payload, {
-    ...getAdminCorsHeaders(req),
-    ...headers
-  });
-
 const rejectCrossOriginMutation = (req, res) => {
-  if (isSameOriginRequest(req) || isAllowedAdminOrigin(req)) return false;
+  if (isSameOriginRequest(req)) return false;
 
-  sendAdminJson(req, res, 403, {
+  sendJson(res, 403, {
     ok: false,
     message: "Cross-origin requests are not allowed."
   });
@@ -215,7 +125,7 @@ const rejectNonJsonRequest = (req, res) => {
   const contentType = getHeader(req, "content-type").split(";")[0].trim().toLowerCase();
   if (contentType === "application/json") return false;
 
-  sendAdminJson(req, res, 415, {
+  sendJson(res, 415, {
     ok: false,
     message: "Content-Type must be application/json."
   });
@@ -224,73 +134,6 @@ const rejectNonJsonRequest = (req, res) => {
 
 const normalizePathname = (pathname) =>
   pathname.length > 1 ? pathname.replace(/\/+$/, "") : pathname;
-
-const getAdminToken = (req) => {
-  const authorization = getHeader(req, "authorization");
-  const bearer = authorization.match(/^Bearer\s+(.+)$/i)?.[1]?.trim();
-  if (bearer) return bearer;
-
-  const cookies = parseCookies(req);
-  return cookies[ADMIN_COOKIE_NAME] || "";
-};
-
-const signTokenPayload = (payload) =>
-  crypto
-    .createHmac("sha256", ADMIN_TOKEN_SECRET)
-    .update(payload)
-    .digest("base64url");
-
-const verifySignature = (payload, signature) => {
-  const expected = signTokenPayload(payload);
-  const actualBuffer = Buffer.from(signature);
-  const expectedBuffer = Buffer.from(expected);
-
-  return (
-    actualBuffer.length === expectedBuffer.length &&
-    crypto.timingSafeEqual(actualBuffer, expectedBuffer)
-  );
-};
-
-const timingSafeStringEqual = (actual, expected) => {
-  const actualBuffer = Buffer.from(String(actual));
-  const expectedBuffer = Buffer.from(String(expected));
-
-  return (
-    actualBuffer.length === expectedBuffer.length &&
-    crypto.timingSafeEqual(actualBuffer, expectedBuffer)
-  );
-};
-
-const isAdminAuthorized = (req) => {
-  if (!ADMIN_TOKEN_SECRET) return false;
-
-  const token = getAdminToken(req);
-  if (token.length > 4096) return false;
-  const [payload, signature] = token.split(".");
-
-  if (!payload || !signature || !verifySignature(payload, signature)) {
-    return false;
-  }
-
-  try {
-    const session = JSON.parse(Buffer.from(payload, "base64url").toString("utf8"));
-    return session.scope === "admin" && Number(session.expiresAt) > Date.now();
-  } catch {
-    return false;
-  }
-};
-
-const createAdminSession = () => {
-  const payload = Buffer.from(
-    JSON.stringify({
-      scope: "admin",
-      createdAt: Date.now(),
-      expiresAt: Date.now() + ADMIN_SESSION_MS
-    })
-  ).toString("base64url");
-
-  return `${payload}.${signTokenPayload(payload)}`;
-};
 
 const readJsonBody = (req) =>
   new Promise((resolve, reject) => {
@@ -366,108 +209,6 @@ const runRedisCommand = async (command) => {
   return payload.result;
 };
 
-const readRemoteJson = async (key) => {
-  const value = await runRedisCommand(["GET", key]);
-  if (value === null || value === undefined) return null;
-  if (typeof value !== "string") return value;
-  return JSON.parse(value);
-};
-
-const writeRemoteJson = async (key, payload) => {
-  await runRedisCommand(["SET", key, JSON.stringify(payload)]);
-  return true;
-};
-
-const loadSiteContent = async () => {
-  try {
-    if (HAS_REMOTE_STORAGE) {
-      const remoteContent = await readRemoteJson(SITE_CONTENT_STORAGE_KEY);
-
-      if (remoteContent) {
-        validateSiteContent(remoteContent);
-        siteState = remoteContent;
-        siteContentLoadedAt = Date.now();
-        return;
-      }
-
-      siteState = initialSite;
-      validateSiteContent(siteState);
-      await writeRemoteJson(SITE_CONTENT_STORAGE_KEY, siteState);
-      siteContentLoadedAt = Date.now();
-      return;
-    }
-
-    const content = await fs.readFile(SITE_CONTENT_FILE, "utf8");
-    siteState = JSON.parse(content);
-    validateSiteContent(siteState);
-    siteContentLoadedAt = Date.now();
-  } catch (error) {
-    if (error.code !== "ENOENT") {
-      console.warn(`Using default site content: ${error.message}`);
-    }
-
-    siteState = initialSite;
-    siteContentLoadedAt = Date.now();
-    if (!HAS_REMOTE_STORAGE) {
-      await writeJsonFile(SITE_CONTENT_FILE, siteState);
-    }
-  }
-};
-
-const ensureSiteContent = () => {
-  const cacheExpired =
-    HAS_REMOTE_STORAGE &&
-    siteContentLoadedAt &&
-    Date.now() - siteContentLoadedAt > SITE_CONTENT_CACHE_MS;
-
-  if (!siteContentReady || cacheExpired) {
-    siteContentReady = loadSiteContent();
-  }
-
-  return siteContentReady;
-};
-
-const validateSiteContent = (payload) => {
-  const requiredObjects = ["brand", "hero", "sections"];
-  const requiredArrays = ["metrics", "services", "projects", "process", "testimonials", "gallery"];
-  const imagePaths = [
-    payload?.hero?.image,
-    ...(payload?.services || []).map((item) => item.image),
-    ...(payload?.projects || []).map((item) => item.image),
-    ...(payload?.gallery || []).map((item) => item.image)
-  ];
-
-  if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
-    throw new Error("Site content must be a JSON object.");
-  }
-
-  requiredObjects.forEach((key) => {
-    if (!payload[key] || typeof payload[key] !== "object" || Array.isArray(payload[key])) {
-      throw new Error(`Missing required object: ${key}.`);
-    }
-  });
-
-  requiredArrays.forEach((key) => {
-    if (!Array.isArray(payload[key])) {
-      throw new Error(`Missing required list: ${key}.`);
-    }
-  });
-
-  if (!payload.brand.name || !payload.brand.phone || !payload.brand.whatsapp) {
-    throw new Error("Brand name, phone, and WhatsApp number are required.");
-  }
-
-  if (!payload.hero.title || !payload.hero.text) {
-    throw new Error("Hero title and text are required.");
-  }
-
-  for (const imagePath of imagePaths) {
-    if (!imagePath || !String(imagePath).startsWith("/assets/") || String(imagePath).includes("..")) {
-      throw new Error("All images must point to safe asset paths.");
-    }
-  }
-};
-
 const pickFields = (source = {}, keys = []) =>
   keys.reduce((result, key) => {
     if (source[key] !== undefined) result[key] = source[key];
@@ -499,17 +240,6 @@ const serializeJsonForHtml = (payload) =>
 
 const injectPublicSiteData = (html) =>
   html.replace(PUBLIC_SITE_PLACEHOLDER, serializeJsonForHtml(getPublicSiteState()));
-
-const saveSiteContent = async (payload) => {
-  validateSiteContent(payload);
-  const persisted = HAS_REMOTE_STORAGE
-    ? await writeRemoteJson(SITE_CONTENT_STORAGE_KEY, payload)
-    : await writeJsonFile(SITE_CONTENT_FILE, payload);
-
-  siteState = payload;
-  siteContentLoadedAt = Date.now();
-  return persisted;
-};
 
 const sanitize = (value) => String(value || "").trim().slice(0, 800);
 
@@ -602,32 +332,6 @@ const handleInquiry = async (req, res) => {
   }
 };
 
-const handleAdminLogin = async (req, res) => {
-  try {
-    const payload = await readJsonBody(req);
-
-    if (!ADMIN_PASSWORD || !ADMIN_TOKEN_SECRET || !timingSafeStringEqual(payload.password || "", ADMIN_PASSWORD)) {
-      sendAdminJson(req, res, 401, { ok: false, message: "Invalid admin credentials." });
-      return;
-    }
-
-    const token = createAdminSession();
-
-    sendAdminJson(req, res, 200, {
-      ok: true,
-      expiresInMs: ADMIN_SESSION_MS,
-      token
-    }, {
-      "Set-Cookie": createAdminCookie(token)
-    });
-  } catch (error) {
-    sendAdminJson(req, res, 400, {
-      ok: false,
-      message: error.message || "Unable to sign in."
-    });
-  }
-};
-
 const isInsideDirectory = (filePath, directory) => {
   const relative = path.relative(directory, filePath);
   return relative === "" || (!relative.startsWith("..") && !path.isAbsolute(relative));
@@ -680,10 +384,6 @@ const serveStatic = async (req, res, urlPath) => {
       content = injectPublicSiteData(content.toString("utf8"));
     }
 
-    if (ext === ".html" && path.basename(filePath) === "admin.html") {
-      responseHeaders["X-Robots-Tag"] = "noindex, nofollow, noarchive";
-    }
-
     send(res, 200, content, responseHeaders, req.method);
   } catch {
     if (!path.extname(urlPath)) {
@@ -696,78 +396,12 @@ const serveStatic = async (req, res, urlPath) => {
 };
 
 const handleRequest = async (req, res) => {
-  await ensureSiteContent();
-
   const requestUrl = new URL(req.url, `http://${req.headers.host || "localhost"}`);
   const method = req.method || "GET";
   const pathname = normalizePathname(requestUrl.pathname);
 
-  if (
-    method === "OPTIONS" &&
-    (pathname === "/api/site" || pathname.startsWith("/api/admin/"))
-  ) {
-    const corsHeaders = getAdminCorsHeaders(req);
-    if (!Object.keys(corsHeaders).length) {
-      send(res, 403, "", { "Content-Type": "text/plain; charset=utf-8" }, method);
-      return;
-    }
-
-    send(res, 204, "", corsHeaders, method);
-    return;
-  }
-
   if (method === "GET" && pathname === "/api/health" && process.env.ENABLE_HEALTHCHECK === "1") {
     sendJson(res, 200, { ok: true, service: "TR-Enterpriies API", timestamp: new Date().toISOString() });
-    return;
-  }
-
-  if (method === "POST" && pathname === "/api/admin/login") {
-    if (rejectCrossOriginMutation(req, res)) return;
-    if (rejectNonJsonRequest(req, res)) return;
-    if (isRateLimited(req, "admin-login", LOGIN_LIMIT)) {
-      sendAdminJson(req, res, 429, { ok: false, message: "Too many login attempts. Try again later." });
-      return;
-    }
-
-    await handleAdminLogin(req, res);
-    return;
-  }
-
-  if (method === "POST" && pathname === "/api/admin/logout") {
-    if (rejectCrossOriginMutation(req, res)) return;
-
-    sendAdminJson(req, res, 200, { ok: true }, {
-      "Set-Cookie": clearAdminCookie()
-    });
-    return;
-  }
-
-  if ((method === "GET" || method === "PUT") && pathname === "/api/site") {
-    if (!isAdminAuthorized(req)) {
-      sendAdminJson(req, res, 401, { ok: false, message: "Admin password required." });
-      return;
-    }
-
-    if (method === "GET") {
-      sendAdminJson(req, res, 200, siteState);
-      return;
-    }
-
-    if (rejectCrossOriginMutation(req, res)) return;
-    if (rejectNonJsonRequest(req, res)) return;
-
-    try {
-      const payload = await readJsonBody(req);
-      const persisted = await saveSiteContent(payload);
-      sendAdminJson(req, res, 200, {
-        ok: true,
-        persisted,
-        message: persisted ? "Site content saved." : "Site content updated for this runtime.",
-        site: siteState
-      });
-    } catch (error) {
-      sendAdminJson(req, res, 400, { ok: false, message: error.message || "Unable to save site content." });
-    }
     return;
   }
 
@@ -796,22 +430,12 @@ const handleRequest = async (req, res) => {
     return;
   }
 
-  if (pathname === "/admin") {
-    await serveStatic(req, res, "/admin.html");
-    return;
-  }
-
   await serveStatic(req, res, pathname);
 };
 
 if (require.main === module) {
-  ensureSiteContent().then(() => {
-    http.createServer(handleRequest).listen(PORT, () => {
-      console.log(`TR-Enterpriies is running at http://127.0.0.1:${PORT}`);
-    });
-  }).catch((error) => {
-    console.error(`Unable to start TR-Enterpriies: ${error.message}`);
-    process.exitCode = 1;
+  http.createServer(handleRequest).listen(PORT, () => {
+    console.log(`TR-Enterpriies is running at http://127.0.0.1:${PORT}`);
   });
 }
 

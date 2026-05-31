@@ -1,94 +1,58 @@
-# TR-Enterpriies Premium Full-Stack Website
+# TR-Enterprises Website
 
-Modern Node.js + Tailwind website for TR-Enterpriies.
+Professional, lightweight full-stack website for TR-Enterprises. This repository contains the Node.js server, Tailwind-based frontend, and site content used by the public pages and contact form.
 
-## Stack
+**Project Summary**
+- **Purpose:** Static public site with a small server for rendering content and handling contact inquiries.
+- **Primary files:** [server.js](server.js), [data/site.js](data/site.js), [public/index.html](public/index.html), [package.json](package.json).
 
-- Node.js backend using the built-in `http` module
-- Tailwind CSS frontend compiled to `public/styles.css`
-- Server-rendered public content from `data/site.js`, local JSON, or Redis REST storage on Vercel
-- Admin editor served from `public/admin.html`
-- Inquiry submissions stored in local JSON or Redis REST storage on Vercel
+**Stack**
+- **Runtime:** Node.js
+- **Frontend:** Tailwind CSS (compiled to `public/styles.css`)
+- **Storage:** Local JSON (development) or Redis REST (production via environment variables)
 
-## Run Locally
+**Prerequisites**
+- Install Node.js (LTS recommended)
+
+**Local Setup**
+1. Install dependencies and build assets:
 
 ```bash
 npm install
-npm run build:css
-npm start
+npm run build
 ```
 
-For admin access in PowerShell, set secrets before starting:
-
-```powershell
-$env:ADMIN_PASSWORD = "replace-with-a-long-password"
-$env:ADMIN_TOKEN_SECRET = "replace-with-a-long-random-secret"
-npm start
-```
-
-Open:
-
-```text
-http://127.0.0.1:3000
-```
-
-## Useful Scripts
+2. Start the server:
 
 ```bash
-npm run build:css
-npm run watch:css
-npm run check
 npm start
 ```
 
-## Separate Admin Website
+Open `http://127.0.0.1:3000` in your browser.
 
-The `admin-site/` folder is a separate deployable admin website. It connects back to this public website API and edits `/api/site`.
+**Common Scripts**
+- **`npm run build`**: Build CSS/JS and production assets.
+- **`npm run build:css`**: Compile Tailwind CSS.
+- **`npm run watch:css`**: Watch and rebuild CSS during development.
+- **`npm start`**: Start the Node.js server.
 
-Public website environment:
+**Configuration / Environment**
+- `KV_REST_API_URL` / `KV_REST_API_TOKEN` (or `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN`): Redis REST endpoint and auth for production storage.
+- `INQUIRIES_STORAGE_KEY` (optional): Key used to store inquiry objects.
+- `ENABLE_HEALTHCHECK=1` (optional): Enable `GET /api/health` for health checks.
 
-```text
-ADMIN_PASSWORD=replace-with-password
-ADMIN_TOKEN_SECRET=replace-with-long-random-secret
-ADMIN_ORIGINS=https://your-admin-website.com
-KV_REST_API_URL=from-vercel-upstash-storage
-KV_REST_API_TOKEN=from-vercel-upstash-storage
-```
+**Deployment Notes**
+- Vercel (or similar serverless platforms) do not provide writable, persistent filesystem storage. To persist contact form submissions in production, configure a Redis REST-compatible store (e.g., Upstash) and set the variables above.
 
-Admin website environment:
+**Security & Privacy**
+- The contact endpoint accepts JSON and includes same-origin checks and rate limiting. Validate environment secrets before deploying.
 
-```text
-MAIN_SITE_URL=https://your-main-website.com
-```
+**Where to Edit Site Content**
+- Public content is controlled in [data/site.js](data/site.js). Frontend markup is in [public/index.html](public/index.html).
 
-For local testing, run the public site on `http://127.0.0.1:3000` and the admin site on `http://127.0.0.1:4000`, with `ADMIN_ORIGINS=http://127.0.0.1:4000`.
+If you want, I can also:
+- Update `data/site.js` with clearer content structure.
+- Add a CONTRIBUTING section or GitHub workflow for deployment.
 
-## Vercel Persistence
-
-Vercel deployments do not provide persistent writable files for admin edits. Add an Upstash Redis / KV store to the main Vercel website project and set:
-
-```text
-KV_REST_API_URL=...
-KV_REST_API_TOKEN=...
-SITE_CONTENT_STORAGE_KEY=tr:site-content
-INQUIRIES_STORAGE_KEY=tr:inquiries
-```
-
-`SITE_CONTENT_STORAGE_KEY` and `INQUIRIES_STORAGE_KEY` are optional, but setting them keeps the production data names explicit. If your provider uses Upstash variable names instead, the server also accepts `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN`.
-
-Only set these storage variables on the main website deployment. The separate admin website only needs `MAIN_SITE_URL`.
-
-## Security
-
-- Set `ADMIN_PASSWORD` and `ADMIN_TOKEN_SECRET` in production. Admin login is disabled when either secret is missing.
-- Use a long admin password and a high-entropy token secret.
-- Same-origin admin sessions use `HttpOnly`, same-site cookies. The separate remote admin site uses a temporary signed bearer token stored in browser session storage.
-- Remote admin deployments are allowed only when their exact origin is listed in `ADMIN_ORIGINS`.
-- On Vercel, admin edits persist only when Redis REST storage variables are configured on the main website deployment.
-- Public page content is embedded server-side. The public frontend does not fetch `/api/site`.
-- `GET /api/site` and `PUT /api/site` require an authenticated admin session.
-- `POST /api/inquiries` remains public because the contact form needs it, but it is same-origin checked, JSON-only, and rate-limited.
-- `GET /api/health` is disabled unless `ENABLE_HEALTHCHECK=1`.
-
-The site API loads editable content from Redis REST storage when configured, otherwise from `data/site-content.json`, and falls back to `data/site.js`.
-The inquiry API validates company name, contact number, email, and work requirement, saves the request where storage is available, and returns a WhatsApp continuation URL.
+---
+If you'd like any wording adjusted or more details added (contributing guide, deployment steps, or badges), tell me which sections to expand.
