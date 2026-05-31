@@ -1,15 +1,23 @@
 /* MOBILE-FIRST RESPONSIVE DESIGN SYSTEM
    ======================================
-   Production-ready responsive CSS with three tiers:
-   - Mobile (320px-768px): Full optimization
-   - Tablet (769px-1024px): Moderate scaling  
-   - Desktop (1025px+): UNCHANGED (preserved)
+   This stylesheet provides complete mobile and tablet responsiveness
+   while preserving all desktop styles (1025px+) unchanged.
+   
+   Breakpoints:
+   - Mobile:  320px - 768px
+   - Tablet:  769px - 1024px  
+   - Desktop: 1025px+ (UNCHANGED)
 */
 
 /* ====== MOBILE-FIRST BASE (320px - 768px) ====== */
 
+/* Reduce excessive vertical spacing on mobile */
 @media (max-width: 768px) {
   /* Typography - aggressive scaling for small screens */
+  body {
+    font-size: 14px;
+  }
+
   .section-pad {
     padding: 48px 0 !important;
   }
@@ -24,7 +32,7 @@
     line-height: 1.6;
   }
 
-  /* Hero Section */
+  /* Hero Section - Reduce overwhelming padding */
   .ref-hero-content {
     padding: 32px 16px 140px !important;
   }
@@ -41,7 +49,7 @@
     margin-top: 12px;
   }
 
-  /* Hero Stats - 2-column mobile grid */
+  /* Hero Stats - Better mobile grid */
   .hero-stat-band {
     grid-template-columns: repeat(2, 1fr) !important;
     bottom: -16px !important;
@@ -64,7 +72,7 @@
     margin-top: 6px;
   }
 
-  /* Service Cards - CRITICAL FIX */
+  /* Service Cards - Priority fix */
   .service-card {
     display: grid !important;
     grid-template-columns: 1fr !important;
@@ -95,7 +103,7 @@
     display: none !important;
   }
 
-  /* About Section */
+  /* About Section - Reduce padding */
   .about-story {
     padding-top: 16px !important;
   }
@@ -113,7 +121,7 @@
     padding: 12px !important;
   }
 
-  /* Gallery - Mobile proportions */
+  /* Gallery - Better mobile proportions */
   .gallery-wall {
     grid-auto-rows: 160px !important;
     gap: 8px;
@@ -124,7 +132,7 @@
     grid-row: auto !important;
   }
 
-  /* CTA Section */
+  /* CTA Section - Reduce excessive padding */
   .cta-band {
     padding: 20px !important;
     gap: 14px !important;
@@ -140,7 +148,7 @@
     margin-top: 8px;
   }
 
-  /* Project Cards */
+  /* Project Cards - Better mobile layout */
   .project-card {
     grid-template-columns: 1fr !important;
   }
@@ -153,7 +161,7 @@
     padding: 14px !important;
   }
 
-  /* Leader Cards */
+  /* Leader Cards - Simplified mobile layout */
   .leader-card {
     grid-template-columns: 1fr !important;
     padding: 14px !important;
@@ -164,7 +172,7 @@
     max-height: 260px;
   }
 
-  /* Floating Actions - Show and reduce size */
+  /* Floating Actions - Make visible and accessible */
   .floating-actions {
     display: flex !important;
     right: 10px !important;
@@ -191,7 +199,7 @@
     height: 20px !important;
   }
 
-  /* Contact Section */
+  /* Contact Section - Better proportions */
   .contact-panel h2 {
     font-size: clamp(1.5rem, 6vw, 2rem) !important;
   }
@@ -206,7 +214,7 @@
     padding: 12px !important;
   }
 
-  /* Form */
+  /* Form - Reduce field padding */
   .form-grid {
     gap: 12px !important;
     grid-template-columns: 1fr !important;
@@ -218,7 +226,7 @@
     font-size: 14px;
   }
 
-  /* Footer */
+  /* Footer - Reduce padding */
   .footer-layout {
     grid-template-columns: 1fr !important;
     gap: 28px !important;
@@ -274,7 +282,16 @@
     font-size: 0.75rem;
   }
 
-  /* Performance */
+  /* Remove animations for reduced motion */
+  .hero-slide.active {
+    animation: none !important;
+  }
+
+  .marquee-track {
+    animation: none !important;
+  }
+
+  /* Prevent excessive layout shifts */
   .reveal {
     opacity: 1 !important;
     transform: none !important;
@@ -318,7 +335,7 @@
     padding: 14px !important;
   }
 
-  /* Hero Stats */
+  /* Hero Stats - Better spacing */
   .hero-stat-band div {
     min-height: 95px !important;
     padding: 14px !important;
@@ -328,13 +345,13 @@
     font-size: clamp(1.4rem, 3vw, 2rem) !important;
   }
 
-  /* Gallery */
+  /* Gallery - 2 or 3 column */
   .gallery-wall {
     grid-template-columns: repeat(2, 1fr) !important;
     grid-auto-rows: 200px;
   }
 
-  /* Leader Cards */
+  /* Leader Cards - 2 column layout */
   .leader-grid {
     grid-template-columns: repeat(2, 1fr) !important;
   }
@@ -343,7 +360,7 @@
     grid-template-columns: 140px 1fr !important;
   }
 
-  /* CTA */
+  /* CTA Section */
   .cta-band {
     padding: 28px !important;
   }
@@ -375,7 +392,11 @@
     grid-template-columns: repeat(2, 1fr) !important;
   }
 
-  /* Floating actions */
+  .why-points {
+    gap: 12px;
+  }
+
+  /* Floating actions - slightly smaller on tablet */
   .floating-actions a,
   .floating-actions button {
     width: 42px !important;
