@@ -79,6 +79,9 @@
     background: var(--header-bg);
     color: var(--text);
     backdrop-filter: blur(12px) saturate(1.08);
+    position: sticky;
+    top: 0;
+    z-index: 60;
   }
 
   .mobile-nav {
@@ -2158,12 +2161,25 @@ body.theme-body::after,
   display: inline-flex;
   min-height: 34px;
   align-items: center;
+  gap: 6px;
   border-radius: 6px;
   padding: 0 10px;
   color: var(--nav-text);
   font-size: 0.78rem;
   font-weight: 900;
   text-transform: uppercase;
+}
+
+.nav-group > a::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  margin-top: -2px;
+  border-right: 1.75px solid currentColor;
+  border-bottom: 1.75px solid currentColor;
+  opacity: 0.6;
+  transform: rotate(45deg) translate(-1px, -1px);
+  transition: all 380ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .tr-nav > a:hover,
@@ -2173,6 +2189,13 @@ body.theme-body::after,
 .nav-group > a.active {
   background: var(--nav-hover-bg);
   color: var(--brand-green);
+}
+
+.nav-group:hover > a::after,
+.nav-group > a:focus-visible::after,
+.nav-group > a.active::after {
+  opacity: 1;
+  transform: rotate(45deg) translate(3px, 3px) scale(1.08);
 }
 
 .nav-group {
