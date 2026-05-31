@@ -218,7 +218,7 @@ const site = {
       id: "dismantling-work",
       title: "Dismantling Work",
       category: "Site Support",
-      image: "/assets/images/dismantling-site-work.png",
+      image: "/assets/images/dism2.jpeg",
       gallery: [
         { title: "Dismantling site team", image: "/assets/images/dismantal1.jpeg" },
         { title: "Dismantling work in progress", image: "/assets/images/dismantal2.jpeg" },
@@ -259,6 +259,11 @@ const site = {
       title: "New Site Insulation Serve",
       category: "Plant",
       image: "/assets/images/new-insulation-plant-work.png",
+      gallery: [
+        { title: "Insulation site preparation", image: "/assets/images/insulation1.png" },
+        { title: "Insulation plant support", image: "/assets/images/insulation2.png" },
+        { title: "Insulation service completion", image: "/assets/images/insulation3.png" }
+      ],
       summary: "Focused plant-work support for insulation areas, inspections, zone care, and maintenance teams.",
       bullets: ["Plant assist", "Inspection support", "Zone care"],
       detail: {
