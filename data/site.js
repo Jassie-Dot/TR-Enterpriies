@@ -179,6 +179,11 @@ const site = {
       title: "Solar Panel Cleaning Services",
       category: "Solar",
       image: "/assets/images/solar-panel-cleaning.png",
+      gallery: [
+        { title: "Solar panel cleaning team", image: "/assets/images/cleaning1.jpeg" },
+        { title: "Panel washing in progress", image: "/assets/images/cleaning2.jpeg" },
+        { title: "Solar cleaning site work", image: "/assets/images/cleaning3.jpeg" }
+      ],
       summary: "Scheduled solar-panel cleaning for cleaner panels, safer access, and better plant presentation.",
       bullets: ["Panel cleaning", "Visual checks", "Safe access"],
       detail: {
@@ -194,6 +199,11 @@ const site = {
       title: "Industrial Cleaning Services",
       category: "Industrial",
       image: "/assets/images/insulation-plant-work.png",
+      gallery: [
+        { title: "Industrial cleaning team", image: "/assets/images/industry1.jpeg" },
+        { title: "Industrial cleaning site work", image: "/assets/images/industry2.jpeg" },
+        { title: "Industrial cleaning close-out", image: "/assets/images/industry3.jpeg" }
+      ],
       summary: "Industrial cleaning support for equipment zones, work floors, plant areas, and maintenance spaces.",
       bullets: ["Equipment zones", "Plant floors", "Maintenance support"],
       detail: {
@@ -209,6 +219,11 @@ const site = {
       title: "Dismantling Work",
       category: "Site Support",
       image: "/assets/images/dismantling-site-work.png",
+      gallery: [
+        { title: "Dismantling site team", image: "/assets/images/dismantal1.jpeg" },
+        { title: "Dismantling work in progress", image: "/assets/images/dismantal2.jpeg" },
+        { title: "Dismantling close-out support", image: "/assets/images/dismantal3.jpeg" }
+      ],
       summary: "Controlled dismantling support with planned crews, safe movement, and organized close-out.",
       bullets: ["Crew planning", "Safe movement", "Close-out"],
       detail: {
@@ -224,6 +239,11 @@ const site = {
       title: "Inverter Installation and Maintenance",
       category: "Power",
       image: "/assets/images/inverter-installation.png",
+      gallery: [
+        { title: "Industrial inverter installation", image: "/assets/images/inverter-installation-industrial-1.png" },
+        { title: "Industrial inverter maintenance check", image: "/assets/images/inverter-installation-industrial-2.png" },
+        { title: "Completed industrial inverter setup", image: "/assets/images/inverter-installation-industrial-3.png" }
+      ],
       summary: "Support for inverter installation, maintenance readiness, room upkeep, and power-room assistance.",
       bullets: ["Install support", "Maintenance readiness", "Room upkeep"],
       detail: {

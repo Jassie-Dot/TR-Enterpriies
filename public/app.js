@@ -753,6 +753,36 @@ const loadSite = () => {
   return site;
 };
 
+const renderServiceMedia = (service) => {
+  const images = [
+    { title: service.title, image: service.image },
+    ...(service.gallery || [])
+  ].filter((item) => item?.image);
+
+  if (!images.length) return "";
+
+  const [primary, ...supporting] = images;
+  const supportingMarkup = supporting.length
+    ? `
+      <div class="service-modal-gallery">
+        ${supporting
+          .map(
+            (item) => `
+              <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title || service.title)}" loading="lazy" />
+            `
+          )
+          .join("")}
+      </div>
+    `
+    : "";
+
+  return `
+    <div class="service-modal-media">
+      <img src="${escapeHtml(primary.image)}" alt="${escapeHtml(primary.title || service.title)}" />
+      ${supportingMarkup}
+    </div>
+  `;
+};
 
 const setupServiceModal = (services = []) => {
   const modal = $("[data-service-modal]");
@@ -774,7 +804,7 @@ const setupServiceModal = (services = []) => {
       if (service) {
         body.innerHTML = `
           <h2>${escapeHtml(service.title)}</h2>
-          <img src="${escapeHtml(service.image)}" alt="${escapeHtml(service.title)}" style="width:100%; border-radius:8px; margin-bottom:1rem;" />
+          ${renderServiceMedia(service)}
           <p><strong>What:</strong> ${escapeHtml(service.detail?.what || service.summary)}</p>
           ${service.detail?.for ? `<p><strong>For:</strong> ${escapeHtml(service.detail.for)}</p>` : ''}
           
