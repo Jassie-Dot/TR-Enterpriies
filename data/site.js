@@ -273,7 +273,11 @@ const site = {
       id: "earthing-services",
       title: "Earthing Services",
       category: "Power",
-      image: "/assets/images/earthing.png",
+      image: "/assets/images/earthing1.jpeg",
+      gallery: [
+        { title: "Earthing system installation", image: "/assets/images/earthing2.jpeg" },
+        { title: "Earthing maintenance support", image: "/assets/images/earthing3.jpeg" }
+      ],
       summary: "Professional earthing system installation and maintenance for electrical safety and stability.",
       bullets: ["System installation", "Testing and inspection", "Maintenance support"],
       detail: {
