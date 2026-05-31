@@ -16,7 +16,7 @@ const site = {
     eyebrow: "Solar. Industrial.",
     title: "TR-Enterpriies",
     text:
-      "Reliable field teams for solar cleaning, industrial cleaning, inverter support, dismantling, and insulation plant work.",
+      "Reliable field teams for solar cleaning, industrial cleaning, inverter support, dismantling, and New Site Insulation Serve.",
     image: "/assets/images/hero-solar-maintenance.png",
     slides: [
       {
@@ -39,7 +39,7 @@ const site = {
       "Industrial cleaning",
       "Dismantling work",
       "Inverter installation and maintenance",
-      "Insulation plant work",
+      "New Site Insulation Serve",
       "Safety training support",
       "Emergency medical support"
     ],
@@ -256,7 +256,7 @@ const site = {
     },
     {
       id: "insulation-plant-work",
-      title: "Insulation Plant Work",
+      title: "New Site Insulation Serve",
       category: "Plant",
       image: "/assets/images/new-insulation-plant-work.png",
       summary: "Focused plant-work support for insulation areas, inspections, zone care, and maintenance teams.",
@@ -366,7 +366,7 @@ const site = {
     { title: "Solar panel cleaning", image: "/assets/images/solar-panel-cleaning.png" },
     { title: "Industrial maintenance", image: "/assets/images/insulation-plant-work.png" },
     { title: "Inverter installation and maintenance", image: "/assets/images/inverter-installation.png" },
-    { title: "Insulation plant work", image: "/assets/images/new-insulation-plant-work.png" }
+    { title: "New Site Insulation Serve", image: "/assets/images/new-insulation-plant-work.png" }
   ]
 };
 
