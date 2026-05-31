@@ -4,6 +4,14 @@ const path = require("node:path");
 const crypto = require("node:crypto");
 const initialSite = require("./data/site");
 
+let imageManifest = {};
+
+try {
+  imageManifest = require("./data/image-manifest.json");
+} catch {
+  imageManifest = {};
+}
+
 const PORT = Number(process.env.PORT || 3000);
 const IS_PRODUCTION = process.env.NODE_ENV === "production" || Boolean(process.env.VERCEL);
 const ALLOW_VERCEL_LIVE = Boolean(process.env.VERCEL) && process.env.DISABLE_VERCEL_LIVE !== "1";
@@ -19,6 +27,7 @@ const DATA_DIR = path.join(ROOT, "data");
 const INQUIRIES_FILE = path.join(DATA_DIR, "inquiries.json");
 const MAX_BODY_BYTES = 1024 * 512;
 const PUBLIC_SITE_PLACEHOLDER = "__TR_SITE_DATA__";
+const PUBLIC_PRELOAD_PLACEHOLDER = "<!-- __TR_PRELOAD_LINKS__ -->";
 const INQUIRY_LIMIT = { limit: 8, windowMs: 60 * 60 * 1000 };
 const siteState = initialSite;
 const rateLimitStore = new Map();
@@ -32,8 +41,22 @@ const mimeTypes = new Map([
   [".jpg", "image/jpeg"],
   [".jpeg", "image/jpeg"],
   [".webp", "image/webp"],
+  [".avif", "image/avif"],
   [".svg", "image/svg+xml"],
   [".ico", "image/x-icon"]
+]);
+
+const immutableStaticExtensions = new Set([
+  ".avif",
+  ".css",
+  ".gif",
+  ".ico",
+  ".jpg",
+  ".jpeg",
+  ".js",
+  ".png",
+  ".svg",
+  ".webp"
 ]);
 
 const securityHeaders = {
@@ -52,7 +75,7 @@ const securityHeaders = {
     "object-src 'none'",
     "img-src 'self' data:",
     "font-src 'self' https://fonts.gstatic.com",
-    `style-src 'self' https://fonts.googleapis.com${ALLOW_VERCEL_LIVE ? " 'unsafe-inline'" : ""}`,
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "script-src 'self'",
     `script-src-elem 'self'${ALLOW_VERCEL_LIVE ? " https://vercel.live" : ""}`,
     `connect-src 'self'${ALLOW_VERCEL_LIVE ? " https://vercel.live" : ""}`,
@@ -215,6 +238,22 @@ const pickFields = (source = {}, keys = []) =>
     return result;
   }, {});
 
+const getPublicImageManifest = () =>
+  Object.fromEntries(
+    Object.entries(imageManifest).map(([src, meta]) => [
+      src,
+      {
+        width: meta.width,
+        height: meta.height,
+        placeholder: meta.placeholder,
+        formats: {
+          avif: (meta.formats?.avif || []).map((variant) => ({ src: variant.src, width: variant.width })),
+          webp: (meta.formats?.webp || []).map((variant) => ({ src: variant.src, width: variant.width }))
+        }
+      }
+    ])
+  );
+
 const getPublicSiteState = () => ({
   brand: pickFields(siteState.brand, ["name", "shortName", "phone", "whatsapp", "email", "location", "address", "workingHours", "mapUrl"]),
   hero: pickFields(siteState.hero, ["eyebrow", "title", "text", "image", "chips", "slides"]),
@@ -227,7 +266,8 @@ const getPublicSiteState = () => ({
   leadership: siteState.leadership || [],
   process: siteState.process,
   testimonials: siteState.testimonials,
-  gallery: siteState.gallery
+  gallery: siteState.gallery,
+  images: getPublicImageManifest()
 });
 
 const serializeJsonForHtml = (payload) =>
@@ -238,8 +278,76 @@ const serializeJsonForHtml = (payload) =>
     .replaceAll("\u2028", "\\u2028")
     .replaceAll("\u2029", "\\u2029");
 
-const injectPublicSiteData = (html) =>
-  html.replace(PUBLIC_SITE_PLACEHOLDER, serializeJsonForHtml(getPublicSiteState()));
+const getPageKeyFromPathname = (pathname = "/") => {
+  const cleanPath = pathname.replace(/\/+$/, "") || "/";
+  if (cleanPath === "/" || cleanPath === "/index.html") return "home";
+  if (cleanPath === "/about" || cleanPath === "/company") return "about";
+  if (cleanPath === "/services" || cleanPath === "/product-services") return "services";
+  if (cleanPath === "/leadership") return "leadership";
+  if (cleanPath === "/projects" || cleanPath === "/reference-project") return "projects";
+  if (cleanPath === "/gallery") return "gallery";
+  return "other";
+};
+
+const formatImageSrcset = (variants = []) =>
+  variants.map((variant) => `${variant.src} ${variant.width}w`).join(", ");
+
+const preloadImage = (src, sizes, fetchPriority = "high") => {
+  const meta = imageManifest[src];
+  const variants = meta?.formats?.avif?.length ? meta.formats.avif : meta?.formats?.webp;
+  if (!meta || !variants?.length) return "";
+
+  const preferred = variants[Math.min(variants.length - 1, Math.max(0, variants.length - 2))];
+  const type = meta.formats?.avif?.length ? "image/avif" : "image/webp";
+
+  return `<link rel="preload" as="image" href="${preferred.src}" type="${type}" imagesrcset="${formatImageSrcset(variants)}" imagesizes="${sizes}" fetchpriority="${fetchPriority}">`;
+};
+
+const getPreloadTargets = (pathname) => {
+  const page = getPageKeyFromPathname(pathname);
+  const serviceSizes = "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 33vw";
+  const gallerySizes = "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 25vw";
+  const projectSizes = "(max-width: 760px) 100vw, 50vw";
+
+  if (page === "services") {
+    return (siteState.services || [])
+      .slice(0, 4)
+      .map((service) => ({ src: service.image, sizes: serviceSizes }));
+  }
+
+  if (page === "gallery") {
+    return (siteState.gallery || [])
+      .slice(0, 4)
+      .map((item) => ({ src: item.image, sizes: gallerySizes }));
+  }
+
+  if (page === "projects") {
+    return (siteState.projects || [])
+      .slice(0, 2)
+      .map((project) => ({ src: project.image, sizes: projectSizes }));
+  }
+
+  if (page === "leadership") {
+    return (siteState.leadership || [])
+      .filter((leader) => leader.image)
+      .slice(0, 1)
+      .map((leader) => ({ src: leader.image, sizes: "(max-width: 760px) 100vw, 50vw" }));
+  }
+
+  const firstHeroSlide = siteState.hero?.slides?.[0]?.image || siteState.hero?.image;
+  return firstHeroSlide ? [{ src: firstHeroSlide, sizes: "100vw" }] : [];
+};
+
+const buildPreloadLinks = (pathname) =>
+  getPreloadTargets(pathname)
+    .map((target) => preloadImage(target.src, target.sizes))
+    .filter(Boolean)
+    .join("\n    ");
+
+const injectPublicSiteData = (html, pathname = "/") =>
+  html
+    .replace(PUBLIC_SITE_PLACEHOLDER, serializeJsonForHtml(getPublicSiteState()))
+    .replace(PUBLIC_PRELOAD_PLACEHOLDER, buildPreloadLinks(pathname));
 
 const sanitize = (value) => String(value || "").trim().slice(0, 800);
 
@@ -364,7 +472,14 @@ const resolveStaticPath = (urlPath) => {
   return resolveFromDirectory(PUBLIC_DIR, cleanPath);
 };
 
-const serveStatic = async (req, res, urlPath) => {
+const getStaticCacheControl = (filePath, ext) => {
+  if (ext === ".html") return "no-store";
+  if (isInsideDirectory(filePath, ASSETS_DIR)) return "public, max-age=31536000, immutable";
+  if (immutableStaticExtensions.has(ext)) return "public, max-age=31536000, immutable";
+  return "public, max-age=3600";
+};
+
+const serveStatic = async (req, res, urlPath, pagePath = urlPath) => {
   const filePath = resolveStaticPath(urlPath);
 
   if (!filePath) {
@@ -377,17 +492,17 @@ const serveStatic = async (req, res, urlPath) => {
     let content = await fs.readFile(filePath);
     const responseHeaders = {
       "Content-Type": mimeTypes.get(ext) || "application/octet-stream",
-      "Cache-Control": "no-store"
+      "Cache-Control": getStaticCacheControl(filePath, ext)
     };
 
     if (ext === ".html" && path.basename(filePath) === "index.html") {
-      content = injectPublicSiteData(content.toString("utf8"));
+      content = injectPublicSiteData(content.toString("utf8"), pagePath);
     }
 
     send(res, 200, content, responseHeaders, req.method);
   } catch {
     if (!path.extname(urlPath)) {
-      await serveStatic(req, res, "/index.html");
+      await serveStatic(req, res, "/index.html", urlPath);
       return;
     }
 
@@ -430,7 +545,7 @@ const handleRequest = async (req, res) => {
     return;
   }
 
-  await serveStatic(req, res, pathname);
+  await serveStatic(req, res, pathname, pathname);
 };
 
 if (require.main === module) {

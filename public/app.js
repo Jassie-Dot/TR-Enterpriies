@@ -59,6 +59,87 @@ const setHref = (selector, value) => {
   if (node && value) node.href = value;
 };
 
+let imageManifest = {};
+
+const srcsetFor = (variants = []) =>
+  variants.map((variant) => `${escapeHtml(variant.src)} ${variant.width}w`).join(", ");
+
+const imageMetaFor = (src = "") => imageManifest[src] || null;
+
+const loadingAttrs = ({ loading = "lazy", fetchPriority } = {}) =>
+  [
+    `loading="${escapeHtml(loading)}"`,
+    'decoding="async"',
+    fetchPriority ? `fetchpriority="${escapeHtml(fetchPriority)}"` : ""
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+const renderOptimizedImage = (src, alt, options = {}) => {
+  const meta = imageMetaFor(src);
+  const {
+    className = "",
+    pictureClass = "",
+    sizes = "100vw",
+    loading = "lazy",
+    fetchPriority,
+    attrs = ""
+  } = options;
+
+  const dimensionAttrs = meta ? `width="${meta.width}" height="${meta.height}"` : "";
+  const placeholderStyle = meta?.placeholder ? `style="--image-placeholder: url('${escapeHtml(meta.placeholder)}')"` : "";
+  const avifSrcset = srcsetFor(meta?.formats?.avif || []);
+  const webpSrcset = srcsetFor(meta?.formats?.webp || []);
+
+  return `
+    <picture class="optimized-picture ${escapeHtml(pictureClass)}" ${placeholderStyle}>
+      ${avifSrcset ? `<source type="image/avif" srcset="${avifSrcset}" sizes="${escapeHtml(sizes)}" />` : ""}
+      ${webpSrcset ? `<source type="image/webp" srcset="${webpSrcset}" sizes="${escapeHtml(sizes)}" />` : ""}
+      <img
+        ${className ? `class="${escapeHtml(className)}"` : ""}
+        src="${escapeHtml(src)}"
+        alt="${escapeHtml(alt)}"
+        sizes="${escapeHtml(sizes)}"
+        ${dimensionAttrs}
+        ${loadingAttrs({ loading, fetchPriority })}
+        ${attrs}
+      />
+    </picture>
+  `;
+};
+
+const enhanceExistingImage = (image, src, options = {}) => {
+  const meta = imageMetaFor(src);
+  if (!image || !meta) return;
+
+  image.width = meta.width;
+  image.height = meta.height;
+  image.decoding = "async";
+  image.loading = options.loading || "lazy";
+  if (options.fetchPriority) image.setAttribute("fetchpriority", options.fetchPriority);
+  const webpSrcset = srcsetFor(meta.formats?.webp || []);
+  if (webpSrcset) {
+    image.srcset = webpSrcset.replaceAll("&amp;", "&");
+    image.sizes = options.sizes || "100vw";
+  }
+};
+
+const setupImageLoadStates = (root = document) => {
+  $$("picture.optimized-picture img", root).forEach((image) => {
+    const picture = image.closest(".optimized-picture");
+    if (!picture || picture.classList.contains("is-loaded")) return;
+
+    const markLoaded = () => picture.classList.add("is-loaded");
+    if (image.complete && image.naturalWidth > 0) {
+      markLoaded();
+      return;
+    }
+
+    image.addEventListener("load", markLoaded, { once: true });
+    image.addEventListener("error", markLoaded, { once: true });
+  });
+};
+
 const setupScrollControls = () => {
   const progress = $("[data-scroll-progress]");
   const toTop = $("[data-to-top]");
@@ -301,16 +382,18 @@ const renderHero = ({ brand, hero = {}, metrics = [] }) => {
   if (slider) {
     slider.innerHTML = slides
       .map(
-        (slide, index) => `
-          <img
-            class="hero-slide ${index === 0 ? "active" : ""}"
-            src="${escapeHtml(slide.image)}"
-            alt="${escapeHtml(slide.title || hero.title || brand.name)}"
-            data-hero-slide="${index}"
-            decoding="async"
-            ${index === 0 ? 'fetchpriority="high"' : 'fetchpriority="low"'}
-          />
-        `
+        (slide, index) => renderOptimizedImage(
+          slide.image,
+          slide.title || hero.title || brand.name,
+          {
+            className: `hero-slide ${index === 0 ? "active" : ""}`,
+            pictureClass: "hero-slide-picture",
+            sizes: "100vw",
+            loading: index === 0 ? "eager" : "lazy",
+            fetchPriority: index === 0 ? "high" : "low",
+            attrs: `data-hero-slide="${index}"`
+          }
+        )
       )
       .join("");
   }
@@ -435,12 +518,21 @@ const renderServices = (services = []) => {
   const root = $("[data-services]");
   if (!root) return;
 
+  const page = getPageKey();
+  const sizes = "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 33vw";
+
   root.innerHTML = services
     .map(
-      (service) => `
+      (service, index) => {
+        const isCritical = page === "services" && index < 4;
+        return `
         <article class="service-card reveal" id="${escapeHtml(service.id)}">
           <a href="#" data-open-service="${escapeHtml(service.id)}" aria-label="View details for ${escapeHtml(service.title)}">
-            <img src="${escapeHtml(service.image)}" alt="${escapeHtml(service.title)}" decoding="async" />
+            ${renderOptimizedImage(service.image, service.title, {
+              sizes,
+              loading: isCritical ? "eager" : "lazy",
+              fetchPriority: isCritical ? "high" : undefined
+            })}
             <div>
               <span>${escapeHtml(service.category)}</span>
               <h3>${escapeHtml(service.title)}</h3>
@@ -451,7 +543,8 @@ const renderServices = (services = []) => {
             </div>
           </a>
         </article>
-      `
+      `;
+      }
     )
     .join("");
 };
@@ -484,11 +577,20 @@ const renderProjects = (projects = []) => {
   const root = $("[data-projects]");
   if (!root) return;
 
+  const page = getPageKey();
+  const sizes = "(max-width: 760px) 100vw, 50vw";
+
   root.innerHTML = projects
     .map(
-      (project) => `
+      (project, index) => {
+        const isCritical = page === "projects" && index < 2;
+        return `
         <article class="project-card reveal">
-          <img src="${escapeHtml(project.image)}" alt="${escapeHtml(project.title)}" decoding="async" />
+          ${renderOptimizedImage(project.image, project.title, {
+            sizes,
+            loading: isCritical ? "eager" : "lazy",
+            fetchPriority: isCritical ? "high" : undefined
+          })}
           <div>
             <span>${escapeHtml(project.type)}</span>
             <h3>${escapeHtml(project.title)}</h3>
@@ -500,7 +602,8 @@ const renderProjects = (projects = []) => {
             </dl>
           </div>
         </article>
-      `
+      `;
+      }
     )
     .join("");
 };
@@ -511,13 +614,20 @@ const renderLeadership = (leadership = []) => {
 
   root.innerHTML = leadership
     .map(
-      (leader) => `
+      (leader, index) => {
+        const isCritical = getPageKey() === "leadership" && index === 0;
+        return `
         <article class="leader-card reveal">
           <div class="leader-photo" aria-label="${escapeHtml(leader.name)} portrait">
             <span>${escapeHtml(initialsFor(leader.name))}</span>
             ${
               leader.image
-                ? `<img src="${escapeHtml(leader.image)}" alt="${escapeHtml(leader.name)}" decoding="async" data-leader-image />`
+                ? renderOptimizedImage(leader.image, leader.name, {
+                    sizes: "(max-width: 760px) 100vw, 50vw",
+                    loading: isCritical ? "eager" : "lazy",
+                    fetchPriority: isCritical ? "high" : undefined,
+                    attrs: "data-leader-image"
+                  })
                 : ""
             }
           </div>
@@ -527,7 +637,8 @@ const renderLeadership = (leadership = []) => {
             ${leader.experience ? `<p>${escapeHtml(leader.experience)}</p>` : ""}
           </div>
         </article>
-      `
+      `;
+      }
     )
     .join("");
 
@@ -560,14 +671,24 @@ const setupGallery = (gallery = []) => {
   const caption = $("[data-lightbox-caption]");
   if (!grid || !lightbox || !image || !caption) return;
 
+  const page = getPageKey();
+  const sizes = "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 25vw";
+
   grid.innerHTML = gallery
     .map(
-      (item, index) => `
+      (item, index) => {
+        const isCritical = page === "gallery" && index < 4;
+        return `
         <button class="gallery-item reveal ${index === 0 ? "gallery-hero-tile" : ""}" type="button" data-gallery-index="${index}">
-          <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}" decoding="async" />
+          ${renderOptimizedImage(item.image, item.title, {
+            sizes,
+            loading: isCritical ? "eager" : "lazy",
+            fetchPriority: isCritical ? "high" : undefined
+          })}
           <span>${escapeHtml(item.title)}</span>
         </button>
-      `
+      `;
+      }
     )
     .join("");
 
@@ -578,6 +699,7 @@ const setupGallery = (gallery = []) => {
     const item = gallery[Number(button.dataset.galleryIndex)];
     image.src = item.image;
     image.alt = item.title;
+    enhanceExistingImage(image, item.image, { sizes: "min(100vw, 980px)", loading: "eager", fetchPriority: "high" });
     caption.textContent = item.title;
     lightbox.classList.remove("hidden");
   });
@@ -607,6 +729,23 @@ const renderFooter = ({ brand, services = [] }) => {
   setText("[data-footer-email]", brand.email);
   setText("[data-footer-address]", brand.address);
   setText("[data-footer-hours]", brand.workingHours || "Mon-Sat available");
+};
+
+const hydrateStaticImages = () => {
+  const whyImage = $("[data-why-image]");
+  if (whyImage) {
+    enhanceExistingImage(whyImage, whyImage.getAttribute("src"), {
+      sizes: "(max-width: 1100px) 100vw, 45vw",
+      loading: "lazy"
+    });
+  }
+
+  $$("[data-floating-call] img, [data-floating-whatsapp] img").forEach((image) => {
+    enhanceExistingImage(image, image.getAttribute("src"), {
+      sizes: "56px",
+      loading: "eager"
+    });
+  });
 };
 
 const setupContact = ({ brand, services = [] }) => {
@@ -767,10 +906,11 @@ const renderServiceMedia = (service) => {
     ? `
       <div class="service-modal-gallery">
         ${supporting
-          .map(
-            (item) => `
-              <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title || service.title)}" decoding="async" />
-            `
+          .map((item) =>
+            renderOptimizedImage(item.image, item.title || service.title, {
+              sizes: "(max-width: 560px) 100vw, 33vw",
+              loading: "lazy"
+            })
           )
           .join("")}
       </div>
@@ -779,7 +919,11 @@ const renderServiceMedia = (service) => {
 
   return `
     <div class="service-modal-media">
-      <img src="${escapeHtml(primary.image)}" alt="${escapeHtml(primary.title || service.title)}" decoding="async" fetchpriority="high" />
+      ${renderOptimizedImage(primary.image, primary.title || service.title, {
+        sizes: "min(100vw, 600px)",
+        loading: "eager",
+        fetchPriority: "high"
+      })}
       ${supportingMarkup}
     </div>
   `;
@@ -834,6 +978,7 @@ const setupServiceModal = (services = []) => {
             <a class="btn-primary" href="/contact">Request Quote</a>
           </div>
         `;
+        setupImageLoadStates(body);
         modal.classList.remove("hidden");
       }
       
@@ -854,6 +999,7 @@ const boot = () => {
 
   try {
     const site = loadSite();
+    imageManifest = site.images || {};
     renderBrand(site);
     renderStaticContent(site.sections);
     renderHero(site);
@@ -868,6 +1014,8 @@ const boot = () => {
     setupContact(site);
     applyPageMode(site);
     setupServiceModal(site.services);
+    hydrateStaticImages();
+    setupImageLoadStates(document);
     setupTheme();
     setupParallax();
     setupCardTilt();

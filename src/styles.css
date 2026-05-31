@@ -63,14 +63,31 @@
 }
 
 @layer components {
-  .theme-body {
-    color: var(--text);
-    background: var(--page-bg);
-  }
+.theme-body {
+  color: var(--text);
+  background: var(--page-bg);
+}
 
-  main,
-  footer {
-    position: relative;
+.optimized-picture {
+  display: block;
+  overflow: hidden;
+  background-image: var(--image-placeholder);
+  background-position: center;
+  background-size: cover;
+}
+
+.optimized-picture:not(.hero-slide-picture) img {
+  opacity: 0;
+  transition: opacity 220ms ease, transform 240ms ease;
+}
+
+.optimized-picture:not(.hero-slide-picture).is-loaded img {
+  opacity: 1;
+}
+
+main,
+footer {
+  position: relative;
     z-index: 1;
   }
 
@@ -2552,7 +2569,11 @@ body.theme-body::after,
   overflow: hidden;
   background:
     linear-gradient(90deg, rgba(8, 27, 21, 0.92), rgba(8, 27, 21, 0.74)),
-    url("/assets/images/hero-solar-maintenance.png") center / cover;
+    image-set(
+      url("/assets/images/optimized/hero-solar-maintenance-268f7ab-1280.avif") type("image/avif"),
+      url("/assets/images/optimized/hero-solar-maintenance-268f7ab-1280.webp") type("image/webp"),
+      url("/assets/images/hero-solar-maintenance.png") type("image/png")
+    ) center / cover;
   padding: clamp(72px, 8vw, 118px) 0 clamp(56px, 6vw, 88px);
   color: #ffffff;
 }
@@ -3033,6 +3054,13 @@ body[data-page="home"] .service-section-actions {
   object-fit: cover;
 }
 
+.leader-photo .optimized-picture {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
 .safety-layout {
   grid-template-columns: 0.42fr 0.58fr;
   align-items: start;
@@ -3129,6 +3157,11 @@ body[data-page="home"] .service-section-actions {
   transition: transform 240ms ease;
 }
 
+.gallery-item .optimized-picture {
+  width: 100%;
+  height: 100%;
+}
+
 .gallery-item:hover img {
   transform: scale(1.04);
 }
@@ -3203,7 +3236,11 @@ body[data-page="home"] .service-section-actions {
   border-radius: 8px;
   background:
     linear-gradient(135deg, rgba(20, 99, 63, 0.95), rgba(11, 60, 42, 0.96)),
-    url("/assets/images/solar-panel-cleaning.png") center / cover;
+    image-set(
+      url("/assets/images/optimized/solar-panel-cleaning-cc2f971-1280.avif") type("image/avif"),
+      url("/assets/images/optimized/solar-panel-cleaning-cc2f971-1280.webp") type("image/webp"),
+      url("/assets/images/solar-panel-cleaning.png") type("image/png")
+    ) center / cover;
   padding: clamp(28px, 5vw, 52px);
   color: #ffffff;
   box-shadow: 0 24px 60px rgba(18, 33, 27, 0.18);
@@ -4237,7 +4274,22 @@ html[data-theme="light"] .floating-actions button.floating-btn svg {
   border-radius: 8px;
   object-fit: cover;
 }
+.service-modal-media > .optimized-picture,
+.service-modal-gallery .optimized-picture {
+  width: 100%;
+  border-radius: 8px;
+}
+.service-modal-media > .optimized-picture img,
+.service-modal-gallery .optimized-picture img {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  object-fit: cover;
+}
 .service-modal-media > img {
+  aspect-ratio: 16 / 9;
+}
+.service-modal-media > .optimized-picture {
   aspect-ratio: 16 / 9;
 }
 .service-modal-gallery {
@@ -4246,6 +4298,9 @@ html[data-theme="light"] .floating-actions button.floating-btn svg {
   gap: 0.75rem;
 }
 .service-modal-gallery img {
+  aspect-ratio: 4 / 3;
+}
+.service-modal-gallery .optimized-picture {
   aspect-ratio: 4 / 3;
 }
 
@@ -4283,7 +4338,7 @@ html[data-theme="light"] .floating-actions button.floating-btn svg {
   box-shadow: 0 15px 30px rgba(0,0,0,0.2) !important;
 }
 .service-card img {
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  transition: opacity 220ms ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 .service-card:hover img {
   transform: scale(1.05);
