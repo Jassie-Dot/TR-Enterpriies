@@ -3794,11 +3794,26 @@ html[data-theme="light"] .floating-actions button.floating-btn svg {
 }
 
 .floating-actions .hidden {
-  display: none;
+  /* animate out instead of removing from layout */
+  height: 0 !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  opacity: 0 !important;
+  transform: translateY(8px) scale(.98) !important;
+  pointer-events: none !important;
+  overflow: hidden !important;
+  transition: height 320ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 260ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 320ms cubic-bezier(0.16, 1, 0.3, 1),
+    margin 260ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.floating-actions button.floating-btn.hidden {
-  display: none !important;
+/* ensure buttons transition smoothly when moving */
+.floating-actions > * {
+  transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 260ms cubic-bezier(0.16, 1, 0.3, 1),
+    margin 260ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .lightbox {
