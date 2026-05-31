@@ -131,7 +131,7 @@ const site = {
   metrics: [
     { value: "25+", label: "skilled workers" },
     { value: "4", label: "engineers" },
-    { value: "6", label: "service lines" },
+    { value: "7", label: "service lines" },
     { value: "Mon-Sat", label: "available" }
   ],
   whyChoose: [
