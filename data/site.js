@@ -16,7 +16,7 @@ const site = {
     eyebrow: "Solar. Industrial.",
     title: "TR-Enterpriies",
     text:
-      "Reliable field teams for solar cleaning, industrial cleaning, inverter support, dismantling, and New Site Insulation Serve.",
+      "Reliable field teams for solar cleaning, inverter support, dismantling, and New Site Insulation Serve.",
     image: "/assets/images/hero-solar-maintenance.png",
     slides: [
       {
@@ -192,26 +192,6 @@ const site = {
         process: ["Site briefing", "PPE and access check", "Panel cleaning", "Final visual check and handover"],
         safety: serviceSafety,
         benefits: ["Cleaner panels", "Safer working flow", "Better site presentation", "Planned maintenance rhythm"]
-      }
-    },
-    {
-      id: "industrial-cleaning-services",
-      title: "Industrial Cleaning Services",
-      category: "Industrial",
-      image: "/assets/images/insulation-plant-work.png",
-      gallery: [
-        { title: "Industrial cleaning team", image: "/assets/images/industry1.jpeg" },
-        { title: "Industrial cleaning site work", image: "/assets/images/industry2.jpeg" },
-        { title: "Industrial cleaning close-out", image: "/assets/images/industry3.jpeg" }
-      ],
-      summary: "Industrial cleaning support for equipment zones, work floors, plant areas, and maintenance spaces.",
-      bullets: ["Equipment zones", "Plant floors", "Maintenance support"],
-      detail: {
-        what: "Cleaning crews for industrial zones where safety discipline, timing, and controlled movement matter.",
-        for: "Factories, industrial units, maintenance teams, power rooms, and active plant sites.",
-        process: ["Requirement review", "Area isolation and briefing", "Cleaning execution", "Supervisor check"],
-        safety: serviceSafety,
-        benefits: ["Cleaner work zones", "Reduced site clutter", "Better maintenance access", "Professional site readiness"]
       }
     },
     {

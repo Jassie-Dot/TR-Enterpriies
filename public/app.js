@@ -702,7 +702,7 @@ const setupGallery = (gallery = []) => {
         const tileClass = collageTiles[index % collageTiles.length];
         return `
         <button class="gallery-item reveal ${tileClass}" type="button" data-gallery-index="${index}">
-          ${renderOptimizedImage(item.image, item.title, {
+          ${renderOptimizedImage(item.image, "", {
             sizes,
             loading: isCritical ? "eager" : "lazy",
             fetchPriority: isCritical ? "high" : undefined
@@ -719,7 +719,7 @@ const setupGallery = (gallery = []) => {
 
     const item = visibleGallery[Number(button.dataset.galleryIndex)];
     image.src = item.image;
-    image.alt = item.title;
+    image.alt = "";
     enhanceExistingImage(image, item.image, { sizes: "min(100vw, 980px)", loading: "eager", fetchPriority: "high" });
     caption.textContent = "";
     lightbox.classList.remove("hidden");
