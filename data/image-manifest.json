@@ -144,73 +144,83 @@
     }
   },
   "/assets/images/cleaning3.jpeg": {
-    "width": 1536,
-    "height": 1024,
-    "bytes": 229923,
-    "placeholder": "data:image/webp;base64,UklGRmAAAABXRUJQVlA4IFQAAADQAwCdASoYABAAPvVmqk4qpaQiMAgBUB6JZQCdACHV0uxwk906aAAA/l+n7NPadCPlr4LnclmNGWy5ZBHGZXi5+KjVCdYOv73kXj6IHfF/iuMRgAA=",
+    "width": 1672,
+    "height": 941,
+    "bytes": 402997,
+    "placeholder": "data:image/webp;base64,UklGRlwAAABXRUJQVlA4IFAAAABwAwCdASoYAA4APvVkq04qpaQiMAgBUB6JYgCdABADWxMSrkwA/TBd51Rx8yXKVOHrcms7H2n269zm6T83DIcWN8vKkgwsB9ihDwDZWwAAAA==",
     "formats": {
       "avif": [
         {
           "src": "/assets/images/optimized/cleaning3-f077cb5-320.avif",
           "width": 320,
-          "bytes": 8405
+          "bytes": 6445
         },
         {
           "src": "/assets/images/optimized/cleaning3-f077cb5-480.avif",
           "width": 480,
-          "bytes": 15703
+          "bytes": 11722
         },
         {
           "src": "/assets/images/optimized/cleaning3-f077cb5-640.avif",
           "width": 640,
-          "bytes": 25728
+          "bytes": 18785
         },
         {
           "src": "/assets/images/optimized/cleaning3-f077cb5-960.avif",
           "width": 960,
-          "bytes": 48492
+          "bytes": 36681
         },
         {
           "src": "/assets/images/optimized/cleaning3-f077cb5-1280.avif",
           "width": 1280,
-          "bytes": 74977
+          "bytes": 58923
         },
         {
-          "src": "/assets/images/optimized/cleaning3-f077cb5-1536.avif",
-          "width": 1536,
-          "bytes": 101234
+          "src": "/assets/images/optimized/cleaning3-f077cb5-1600.avif",
+          "width": 1600,
+          "bytes": 82270
+        },
+        {
+          "src": "/assets/images/optimized/cleaning3-f077cb5-1672.avif",
+          "width": 1672,
+          "bytes": 88820
         }
       ],
       "webp": [
         {
           "src": "/assets/images/optimized/cleaning3-f077cb5-320.webp",
           "width": 320,
-          "bytes": 13824
+          "bytes": 9986
         },
         {
           "src": "/assets/images/optimized/cleaning3-f077cb5-480.webp",
           "width": 480,
-          "bytes": 26446
+          "bytes": 18992
         },
         {
           "src": "/assets/images/optimized/cleaning3-f077cb5-640.webp",
           "width": 640,
-          "bytes": 41928
+          "bytes": 30838
         },
         {
           "src": "/assets/images/optimized/cleaning3-f077cb5-960.webp",
           "width": 960,
-          "bytes": 77870
+          "bytes": 59848
         },
         {
           "src": "/assets/images/optimized/cleaning3-f077cb5-1280.webp",
           "width": 1280,
-          "bytes": 118082
+          "bytes": 92922
         },
         {
-          "src": "/assets/images/optimized/cleaning3-f077cb5-1536.webp",
-          "width": 1536,
-          "bytes": 149666
+          "src": "/assets/images/optimized/cleaning3-f077cb5-1600.webp",
+          "width": 1600,
+          "bytes": 128516
+        },
+        {
+          "src": "/assets/images/optimized/cleaning3-f077cb5-1672.webp",
+          "width": 1672,
+          "bytes": 138632
         }
       ]
     }
