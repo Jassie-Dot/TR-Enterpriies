@@ -2675,6 +2675,252 @@
       ]
     }
   },
+  "/assets/images/solar-om-inspection.png": {
+    "width": 1672,
+    "height": 941,
+    "bytes": 1985854,
+    "placeholder": "data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAADwAwCdASoYAA4APvV0rlAqp6QisAgBUB6JZQDCgCFnWj5W/s1kXSwAAP7f7IVjVUNo8oOgADDRWJ8GuOQCWikkJdWcgGkCwz997xgTgAA=",
+    "formats": {
+      "avif": [
+        {
+          "src": "/assets/images/optimized/solar-om-inspection-d2e5547-320.avif",
+          "width": 320,
+          "bytes": 5765
+        },
+        {
+          "src": "/assets/images/optimized/solar-om-inspection-d2e5547-480.avif",
+          "width": 480,
+          "bytes": 10494
+        },
+        {
+          "src": "/assets/images/optimized/solar-om-inspection-d2e5547-640.avif",
+          "width": 640,
+          "bytes": 15999
+        },
+        {
+          "src": "/assets/images/optimized/solar-om-inspection-d2e5547-960.avif",
+          "width": 960,
+          "bytes": 29694
+        },
+        {
+          "src": "/assets/images/optimized/solar-om-inspection-d2e5547-1280.avif",
+          "width": 1280,
+          "bytes": 45382
+        },
+        {
+          "src": "/assets/images/optimized/solar-om-inspection-d2e5547-1600.avif",
+          "width": 1600,
+          "bytes": 62297
+        },
+        {
+          "src": "/assets/images/optimized/solar-om-inspection-d2e5547-1672.avif",
+          "width": 1672,
+          "bytes": 66803
+        }
+      ],
+      "webp": [
+        {
+          "src": "/assets/images/optimized/solar-om-inspection-d2e5547-320.webp",
+          "width": 320,
+          "bytes": 8678
+        },
+        {
+          "src": "/assets/images/optimized/solar-om-inspection-d2e5547-480.webp",
+          "width": 480,
+          "bytes": 15852
+        },
+        {
+          "src": "/assets/images/optimized/solar-om-inspection-d2e5547-640.webp",
+          "width": 640,
+          "bytes": 24788
+        },
+        {
+          "src": "/assets/images/optimized/solar-om-inspection-d2e5547-960.webp",
+          "width": 960,
+          "bytes": 43784
+        },
+        {
+          "src": "/assets/images/optimized/solar-om-inspection-d2e5547-1280.webp",
+          "width": 1280,
+          "bytes": 66174
+        },
+        {
+          "src": "/assets/images/optimized/solar-om-inspection-d2e5547-1600.webp",
+          "width": 1600,
+          "bytes": 89154
+        },
+        {
+          "src": "/assets/images/optimized/solar-om-inspection-d2e5547-1672.webp",
+          "width": 1672,
+          "bytes": 95206
+        }
+      ]
+    }
+  },
+  "/assets/images/solar-om-monitoring.png": {
+    "width": 1672,
+    "height": 941,
+    "bytes": 1920634,
+    "placeholder": "data:image/webp;base64,UklGRmYAAABXRUJQVlA4IFoAAADQAwCdASoYAA4APvVoq04qpiQiMAgBUB6JZgCdAGksb62LfT3ldAAA/u/RU/S20HkPel5QUuFyFCSWraVs7oVraNQFDXMTKKAhIe5yWztl8qbB13xidKAgAAA=",
+    "formats": {
+      "avif": [
+        {
+          "src": "/assets/images/optimized/solar-om-monitoring-6f8e76e-320.avif",
+          "width": 320,
+          "bytes": 6032
+        },
+        {
+          "src": "/assets/images/optimized/solar-om-monitoring-6f8e76e-480.avif",
+          "width": 480,
+          "bytes": 10816
+        },
+        {
+          "src": "/assets/images/optimized/solar-om-monitoring-6f8e76e-640.avif",
+          "width": 640,
+          "bytes": 16276
+        },
+        {
+          "src": "/assets/images/optimized/solar-om-monitoring-6f8e76e-960.avif",
+          "width": 960,
+          "bytes": 29059
+        },
+        {
+          "src": "/assets/images/optimized/solar-om-monitoring-6f8e76e-1280.avif",
+          "width": 1280,
+          "bytes": 43227
+        },
+        {
+          "src": "/assets/images/optimized/solar-om-monitoring-6f8e76e-1600.avif",
+          "width": 1600,
+          "bytes": 58228
+        },
+        {
+          "src": "/assets/images/optimized/solar-om-monitoring-6f8e76e-1672.avif",
+          "width": 1672,
+          "bytes": 61797
+        }
+      ],
+      "webp": [
+        {
+          "src": "/assets/images/optimized/solar-om-monitoring-6f8e76e-320.webp",
+          "width": 320,
+          "bytes": 9194
+        },
+        {
+          "src": "/assets/images/optimized/solar-om-monitoring-6f8e76e-480.webp",
+          "width": 480,
+          "bytes": 16408
+        },
+        {
+          "src": "/assets/images/optimized/solar-om-monitoring-6f8e76e-640.webp",
+          "width": 640,
+          "bytes": 24892
+        },
+        {
+          "src": "/assets/images/optimized/solar-om-monitoring-6f8e76e-960.webp",
+          "width": 960,
+          "bytes": 43120
+        },
+        {
+          "src": "/assets/images/optimized/solar-om-monitoring-6f8e76e-1280.webp",
+          "width": 1280,
+          "bytes": 62876
+        },
+        {
+          "src": "/assets/images/optimized/solar-om-monitoring-6f8e76e-1600.webp",
+          "width": 1600,
+          "bytes": 82784
+        },
+        {
+          "src": "/assets/images/optimized/solar-om-monitoring-6f8e76e-1672.webp",
+          "width": 1672,
+          "bytes": 87738
+        }
+      ]
+    }
+  },
+  "/assets/images/solar-om-preventive-maintenance.png": {
+    "width": 1672,
+    "height": 941,
+    "bytes": 2243492,
+    "placeholder": "data:image/webp;base64,UklGRmAAAABXRUJQVlA4IFQAAAAQBACdASoYAA4APvVqrE6qpiQiMAgBUB6JQBOgBDmj/kSE4n8Yo5BcAAD+VvJWzYSRBBl3uWr0eEZ+APyW6kPZ6HEDqwVsvWofkAxu9msWEZ1+wAA=",
+    "formats": {
+      "avif": [
+        {
+          "src": "/assets/images/optimized/solar-om-preventive-maintenance-dbab911-320.avif",
+          "width": 320,
+          "bytes": 6441
+        },
+        {
+          "src": "/assets/images/optimized/solar-om-preventive-maintenance-dbab911-480.avif",
+          "width": 480,
+          "bytes": 12012
+        },
+        {
+          "src": "/assets/images/optimized/solar-om-preventive-maintenance-dbab911-640.avif",
+          "width": 640,
+          "bytes": 18422
+        },
+        {
+          "src": "/assets/images/optimized/solar-om-preventive-maintenance-dbab911-960.avif",
+          "width": 960,
+          "bytes": 34366
+        },
+        {
+          "src": "/assets/images/optimized/solar-om-preventive-maintenance-dbab911-1280.avif",
+          "width": 1280,
+          "bytes": 53967
+        },
+        {
+          "src": "/assets/images/optimized/solar-om-preventive-maintenance-dbab911-1600.avif",
+          "width": 1600,
+          "bytes": 75723
+        },
+        {
+          "src": "/assets/images/optimized/solar-om-preventive-maintenance-dbab911-1672.avif",
+          "width": 1672,
+          "bytes": 81375
+        }
+      ],
+      "webp": [
+        {
+          "src": "/assets/images/optimized/solar-om-preventive-maintenance-dbab911-320.webp",
+          "width": 320,
+          "bytes": 10312
+        },
+        {
+          "src": "/assets/images/optimized/solar-om-preventive-maintenance-dbab911-480.webp",
+          "width": 480,
+          "bytes": 18402
+        },
+        {
+          "src": "/assets/images/optimized/solar-om-preventive-maintenance-dbab911-640.webp",
+          "width": 640,
+          "bytes": 28468
+        },
+        {
+          "src": "/assets/images/optimized/solar-om-preventive-maintenance-dbab911-960.webp",
+          "width": 960,
+          "bytes": 52594
+        },
+        {
+          "src": "/assets/images/optimized/solar-om-preventive-maintenance-dbab911-1280.webp",
+          "width": 1280,
+          "bytes": 79816
+        },
+        {
+          "src": "/assets/images/optimized/solar-om-preventive-maintenance-dbab911-1600.webp",
+          "width": 1600,
+          "bytes": 107728
+        },
+        {
+          "src": "/assets/images/optimized/solar-om-preventive-maintenance-dbab911-1672.webp",
+          "width": 1672,
+          "bytes": 115370
+        }
+      ]
+    }
+  },
   "/assets/images/solar-panel-cleaning.png": {
     "width": 1536,
     "height": 1024,
