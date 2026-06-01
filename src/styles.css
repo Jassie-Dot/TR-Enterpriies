@@ -2570,9 +2570,9 @@ body.theme-body::after,
   background:
     linear-gradient(90deg, rgba(8, 27, 21, 0.92), rgba(8, 27, 21, 0.74)),
     image-set(
-      url("/assets/images/optimized/hero-solar-maintenance-268f7ab-1280.avif") type("image/avif"),
-      url("/assets/images/optimized/hero-solar-maintenance-268f7ab-1280.webp") type("image/webp"),
-      url("/assets/images/hero-solar-maintenance.png") type("image/png")
+      url("/assets/images/optimized/insu3-6ce475f-885.avif") type("image/avif"),
+      url("/assets/images/optimized/insu3-6ce475f-885.webp") type("image/webp"),
+      url("/assets/images/insu3.jpeg") type("image/jpeg")
     ) center / cover;
   padding: clamp(72px, 8vw, 118px) 0 clamp(56px, 6vw, 88px);
   color: #ffffff;

@@ -17,19 +17,19 @@ const site = {
     title: "TR-Enterpriies",
     text:
       "Reliable field teams for solar cleaning, inverter support, dismantling, and New Site Serve Insulation.",
-    image: "/assets/images/hero-solar-maintenance.png",
+    image: "/assets/images/dismantal3.jpeg",
     slides: [
       {
-        title: "Solar panel service team",
-        image: "/assets/images/hero-solar-maintenance.png"
+        title: "Dismantling close-out support",
+        image: "/assets/images/dismantal3.jpeg"
+      },
+      {
+        title: "Industrial inverter installation",
+        image: "/assets/images/inverter-installation-industrial-1.png"
       },
       {
         title: "Solar panel cleaning",
         image: "/assets/images/solar-panel-cleaning.png"
-      },
-      {
-        title: "Industrial maintenance support",
-        image: "/assets/images/insulation-plant-work.png"
       }
     ]
   },
@@ -356,7 +356,7 @@ const site = {
     }
   ],
   gallery: [
-    { title: "Solar engineers at work", image: "/assets/images/hero-solar-maintenance.png" },
+    { title: "Insulation site work", image: "/assets/images/insu3.jpeg" },
     { title: "Solar panel cleaning", image: "/assets/images/solar-panel-cleaning.png" },
     { title: "Solar panel cleaning 1", image: "/assets/images/cleaning1.jpeg" },
     { title: "Solar panel cleaning 2", image: "/assets/images/cleaning2.jpeg" },

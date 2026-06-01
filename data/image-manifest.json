@@ -977,88 +977,6 @@
       ]
     }
   },
-  "/assets/images/hero-solar-maintenance.png": {
-    "width": 1672,
-    "height": 941,
-    "bytes": 1789642,
-    "placeholder": "data:image/webp;base64,UklGRmQAAABXRUJQVlA4IFgAAAAwBACdASoYAA4APvVsrk4qpqSiMAgBUB6JQBOmUGUgHIrU6kwWmF9X8DAA/vttk/XyTVaWlJp+QcalsJWDaKPb1S5UtrlO0KLjmAaUgWYIvuPwGN/J0AAA",
-    "formats": {
-      "avif": [
-        {
-          "src": "/assets/images/optimized/hero-solar-maintenance-268f7ab-320.avif",
-          "width": 320,
-          "bytes": 3986
-        },
-        {
-          "src": "/assets/images/optimized/hero-solar-maintenance-268f7ab-480.avif",
-          "width": 480,
-          "bytes": 7314
-        },
-        {
-          "src": "/assets/images/optimized/hero-solar-maintenance-268f7ab-640.avif",
-          "width": 640,
-          "bytes": 11530
-        },
-        {
-          "src": "/assets/images/optimized/hero-solar-maintenance-268f7ab-960.avif",
-          "width": 960,
-          "bytes": 22260
-        },
-        {
-          "src": "/assets/images/optimized/hero-solar-maintenance-268f7ab-1280.avif",
-          "width": 1280,
-          "bytes": 34410
-        },
-        {
-          "src": "/assets/images/optimized/hero-solar-maintenance-268f7ab-1600.avif",
-          "width": 1600,
-          "bytes": 48432
-        },
-        {
-          "src": "/assets/images/optimized/hero-solar-maintenance-268f7ab-1672.avif",
-          "width": 1672,
-          "bytes": 51653
-        }
-      ],
-      "webp": [
-        {
-          "src": "/assets/images/optimized/hero-solar-maintenance-268f7ab-320.webp",
-          "width": 320,
-          "bytes": 5254
-        },
-        {
-          "src": "/assets/images/optimized/hero-solar-maintenance-268f7ab-480.webp",
-          "width": 480,
-          "bytes": 9888
-        },
-        {
-          "src": "/assets/images/optimized/hero-solar-maintenance-268f7ab-640.webp",
-          "width": 640,
-          "bytes": 16292
-        },
-        {
-          "src": "/assets/images/optimized/hero-solar-maintenance-268f7ab-960.webp",
-          "width": 960,
-          "bytes": 30984
-        },
-        {
-          "src": "/assets/images/optimized/hero-solar-maintenance-268f7ab-1280.webp",
-          "width": 1280,
-          "bytes": 46862
-        },
-        {
-          "src": "/assets/images/optimized/hero-solar-maintenance-268f7ab-1600.webp",
-          "width": 1600,
-          "bytes": 64614
-        },
-        {
-          "src": "/assets/images/optimized/hero-solar-maintenance-268f7ab-1672.webp",
-          "width": 1672,
-          "bytes": 68992
-        }
-      ]
-    }
-  },
   "/assets/images/industrial-maintenance.png": {
     "width": 1536,
     "height": 1024,
@@ -1343,6 +1261,172 @@
           "src": "/assets/images/optimized/industry3-14b7694-1536.webp",
           "width": 1536,
           "bytes": 243970
+        }
+      ]
+    }
+  },
+  "/assets/images/insu1.jpeg": {
+    "width": 1080,
+    "height": 716,
+    "bytes": 68999,
+    "placeholder": "data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAACQAwCdASoYABAAPvVqrk8qpiSiMAgBUB6JZQAAW+s6pDUUmQDQAP7t3/RUH3+k7Z0/YAxQkNI4KZpPpIfnoTRUdAg3aAAA",
+    "formats": {
+      "avif": [
+        {
+          "src": "/assets/images/optimized/insu1-595806b-320.avif",
+          "width": 320,
+          "bytes": 4661
+        },
+        {
+          "src": "/assets/images/optimized/insu1-595806b-480.avif",
+          "width": 480,
+          "bytes": 7675
+        },
+        {
+          "src": "/assets/images/optimized/insu1-595806b-640.avif",
+          "width": 640,
+          "bytes": 11674
+        },
+        {
+          "src": "/assets/images/optimized/insu1-595806b-960.avif",
+          "width": 960,
+          "bytes": 20477
+        },
+        {
+          "src": "/assets/images/optimized/insu1-595806b-1080.avif",
+          "width": 1080,
+          "bytes": 24347
+        }
+      ],
+      "webp": [
+        {
+          "src": "/assets/images/optimized/insu1-595806b-320.webp",
+          "width": 320,
+          "bytes": 4920
+        },
+        {
+          "src": "/assets/images/optimized/insu1-595806b-480.webp",
+          "width": 480,
+          "bytes": 8950
+        },
+        {
+          "src": "/assets/images/optimized/insu1-595806b-640.webp",
+          "width": 640,
+          "bytes": 14138
+        },
+        {
+          "src": "/assets/images/optimized/insu1-595806b-960.webp",
+          "width": 960,
+          "bytes": 25352
+        },
+        {
+          "src": "/assets/images/optimized/insu1-595806b-1080.webp",
+          "width": 1080,
+          "bytes": 31870
+        }
+      ]
+    }
+  },
+  "/assets/images/insu2.jpeg": {
+    "width": 835,
+    "height": 446,
+    "bytes": 106137,
+    "placeholder": "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAACwAwCdASoYAA0APvVmq04qpaQiMAgBUB6JQBOmUAA7x+EEmcC9wAD+cHdq+wLKqQ5YDtTKo6oOdqfWCYUox/ttdnIVDLb82NdBAAAA",
+    "formats": {
+      "avif": [
+        {
+          "src": "/assets/images/optimized/insu2-1089384-320.avif",
+          "width": 320,
+          "bytes": 8751
+        },
+        {
+          "src": "/assets/images/optimized/insu2-1089384-480.avif",
+          "width": 480,
+          "bytes": 18427
+        },
+        {
+          "src": "/assets/images/optimized/insu2-1089384-640.avif",
+          "width": 640,
+          "bytes": 31496
+        },
+        {
+          "src": "/assets/images/optimized/insu2-1089384-835.avif",
+          "width": 835,
+          "bytes": 60182
+        }
+      ],
+      "webp": [
+        {
+          "src": "/assets/images/optimized/insu2-1089384-320.webp",
+          "width": 320,
+          "bytes": 14092
+        },
+        {
+          "src": "/assets/images/optimized/insu2-1089384-480.webp",
+          "width": 480,
+          "bytes": 31222
+        },
+        {
+          "src": "/assets/images/optimized/insu2-1089384-640.webp",
+          "width": 640,
+          "bytes": 54930
+        },
+        {
+          "src": "/assets/images/optimized/insu2-1089384-835.webp",
+          "width": 835,
+          "bytes": 95860
+        }
+      ]
+    }
+  },
+  "/assets/images/insu3.jpeg": {
+    "width": 885,
+    "height": 483,
+    "bytes": 119940,
+    "placeholder": "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAACQAwCdASoYAA0APvVorE6qpiQiMAgBUB6JY12AVR0TmS3V4WvAAP7q7B/d0cCuUuYTi8LUG9td06girUIi5/bWTYyngt8VmNfmEkAA",
+    "formats": {
+      "avif": [
+        {
+          "src": "/assets/images/optimized/insu3-6ce475f-320.avif",
+          "width": 320,
+          "bytes": 8567
+        },
+        {
+          "src": "/assets/images/optimized/insu3-6ce475f-480.avif",
+          "width": 480,
+          "bytes": 18503
+        },
+        {
+          "src": "/assets/images/optimized/insu3-6ce475f-640.avif",
+          "width": 640,
+          "bytes": 32741
+        },
+        {
+          "src": "/assets/images/optimized/insu3-6ce475f-885.avif",
+          "width": 885,
+          "bytes": 69271
+        }
+      ],
+      "webp": [
+        {
+          "src": "/assets/images/optimized/insu3-6ce475f-320.webp",
+          "width": 320,
+          "bytes": 13420
+        },
+        {
+          "src": "/assets/images/optimized/insu3-6ce475f-480.webp",
+          "width": 480,
+          "bytes": 30572
+        },
+        {
+          "src": "/assets/images/optimized/insu3-6ce475f-640.webp",
+          "width": 640,
+          "bytes": 53268
+        },
+        {
+          "src": "/assets/images/optimized/insu3-6ce475f-885.webp",
+          "width": 885,
+          "bytes": 106194
         }
       ]
     }
