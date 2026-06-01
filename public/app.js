@@ -673,19 +673,40 @@ const setupGallery = (gallery = []) => {
 
   const page = getPageKey();
   const sizes = "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 25vw";
+  const collageTiles = [
+    "gallery-hero-tile",
+    "gallery-wide-tile",
+    "gallery-tall-tile",
+    "gallery-square-tile",
+    "gallery-panorama-tile",
+    "gallery-portrait-tile",
+    "gallery-wide-tile",
+    "gallery-square-tile",
+    "gallery-tall-tile",
+    "gallery-feature-tile"
+  ];
+  const seenImages = new Set();
+  const visibleGallery = gallery.filter((item) => {
+    const imagePath = item?.image?.trim();
+    if (!imagePath) return false;
+    const key = imagePath.toLowerCase();
+    if (seenImages.has(key)) return false;
+    seenImages.add(key);
+    return true;
+  });
 
-  grid.innerHTML = gallery
+  grid.innerHTML = visibleGallery
     .map(
       (item, index) => {
         const isCritical = page === "gallery" && index < 4;
+        const tileClass = collageTiles[index % collageTiles.length];
         return `
-        <button class="gallery-item reveal ${index === 0 ? "gallery-hero-tile" : ""}" type="button" data-gallery-index="${index}">
+        <button class="gallery-item reveal ${tileClass}" type="button" data-gallery-index="${index}">
           ${renderOptimizedImage(item.image, item.title, {
             sizes,
             loading: isCritical ? "eager" : "lazy",
             fetchPriority: isCritical ? "high" : undefined
           })}
-          <span>${escapeHtml(item.title)}</span>
         </button>
       `;
       }
@@ -696,11 +717,11 @@ const setupGallery = (gallery = []) => {
     const button = event.target.closest("[data-gallery-index]");
     if (!button) return;
 
-    const item = gallery[Number(button.dataset.galleryIndex)];
+    const item = visibleGallery[Number(button.dataset.galleryIndex)];
     image.src = item.image;
     image.alt = item.title;
     enhanceExistingImage(image, item.image, { sizes: "min(100vw, 980px)", loading: "eager", fetchPriority: "high" });
-    caption.textContent = item.title;
+    caption.textContent = "";
     lightbox.classList.remove("hidden");
   });
 
