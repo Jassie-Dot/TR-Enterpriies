@@ -16,7 +16,7 @@ const site = {
     eyebrow: "Solar. Industrial.",
     title: "TR-Enterpriies",
     text:
-      "Reliable field teams for solar cleaning, inverter support, dismantling, and New Site Insulation Serve.",
+      "Reliable field teams for solar cleaning, inverter support, dismantling, and New Site Serve Insulation.",
     image: "/assets/images/hero-solar-maintenance.png",
     slides: [
       {
@@ -39,7 +39,7 @@ const site = {
       "Industrial cleaning",
       "Dismantling work",
       "Inverter installation and maintenance",
-      "New Site Insulation Serve",
+      "New Site Serve Insulation",
       "Safety training support",
       "Emergency medical support"
     ],
@@ -236,13 +236,12 @@ const site = {
     },
     {
       id: "insulation-plant-work",
-      title: "New Site Insulation Serve",
+      title: "New Site Serve Insulation",
       category: "Plant",
-      image: "/assets/images/new-insulation-plant-work.png",
+      image: "/assets/images/insu1.jpeg",
       gallery: [
-        { title: "Insulation site preparation", image: "/assets/images/insulation1.png" },
-        { title: "Insulation plant support", image: "/assets/images/insulation2.png" },
-        { title: "Insulation service completion", image: "/assets/images/insulation3.png" }
+        { title: "Insulation plant support", image: "/assets/images/insu2.jpeg" },
+        { title: "Insulation service completion", image: "/assets/images/insu3.jpeg" }
       ],
       summary: "Focused plant-work support for insulation areas, inspections, zone care, and maintenance teams.",
       bullets: ["Plant assist", "Inspection support", "Zone care"],
@@ -376,11 +375,9 @@ const site = {
     { title: "Operations and maintenance 1", image: "/assets/images/o&m1.png" },
     { title: "Operations and maintenance 3", image: "/assets/images/o&m3.jpeg" },
     { title: "Operations and maintenance 4", image: "/assets/images/o&m4.png" },
-    { title: "New Site Insulation Serve", image: "/assets/images/new-insulation-plant-work.png" },
-    { title: "Insulation plant work", image: "/assets/images/insulation-plant-work.png" },
-    { title: "Insulation work 1", image: "/assets/images/insulation1.png" },
-    { title: "Insulation work 2", image: "/assets/images/insulation2.png" },
-    { title: "Insulation work 3", image: "/assets/images/insulation3.png" },
+    { title: "New Site Serve Insulation", image: "/assets/images/insu1.jpeg" },
+    { title: "Insulation plant work", image: "/assets/images/insu2.jpeg" },
+    { title: "Insulation work 3", image: "/assets/images/insu3.jpeg" },
     { title: "Earthing work", image: "/assets/images/earthing.png" },
     { title: "Earthing work 1", image: "/assets/images/earthing1.jpeg" },
     { title: "Earthing work 2", image: "/assets/images/earthing2.jpeg" },
